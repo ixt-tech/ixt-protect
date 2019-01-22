@@ -1,0 +1,18 @@
+.ui.menu.footer {
+  flex-shrink: 0;
+  border-radius: 0;
+  margin: 0;
+  background-color: #03374C;
+  height: 200px;
+  border: 0px;
+  margin-top: 30px;
+}
+
+.ui.menu.footer .item {
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.logo {
+  width: 120px;
+}

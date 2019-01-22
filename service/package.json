@@ -1,0 +1,35 @@
+{
+    "name": "ixt-protect-service",
+    "version": "1.0.0",
+    "description": "IXT Protect REST service",
+    "author": "Ingemar Svensson",
+    "license": "MIT",
+    "private": true,
+    "devDependencies": {
+        "@types/argparse": "1.0.33",
+        "@types/aws-lambda": "^8.10.6",
+        "@types/mysql2": "types/mysql2",
+        "argparse": "1.0.10",
+        "dotenv": "^6.0.0",
+        "dotenv-cli": "^1.4.0",
+        "moment": "^2.22.2",
+        "prettier": "^1.12.1",
+        "serverless": "^1.27.3",
+        "serverless-dotenv-plugin": "1.0.2",
+        "serverless-offline": "^3.25.4",
+        "serverless-offline-sns": "^0.45.0",
+        "serverless-plugin-git-variables": "^2.0.0",
+        "serverless-plugin-tracing": "^2.0.0",
+        "serverless-plugin-warmup": "^3.6.2-rc.1",
+        "serverless-pseudo-parameters": "^1.6.0",
+        "serverless-sns-filter": "^1.1.4",
+        "serverless-webpack": "^5.1.5"
+    },
+    "dependencies": {
+        "amqplib": "^0.5.2",
+        "aws-lambda": "^0.1.2",
+        "aws-sdk": "^2.255.1",
+        "cognito-jwt-token-validator": "^0.0.3",
+        "mysql2": "^1.5.3"
+    }
+}
