@@ -7,7 +7,6 @@ plugins:
     - serverless-offline-sns
     - serverless-sns-filter
     - serverless-plugin-tracing
-    - serverless-pseudo-parameters
 
 provider:
     name: aws
@@ -30,7 +29,7 @@ provider:
         GATEWAYAPI_URL: ${env:GATEWAYAPI_URL, 'http://localhost:8001'}
         GATEWAYAPI_MOCK_ENABLED: ${env:GATEWAYAPI_MOCK_ENABLED, 'true'}
 package:
-    individually: false
+    individually: true
 
 functions:
     ping:
