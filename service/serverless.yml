@@ -35,19 +35,66 @@ package:
 functions:
     ping:
         handler: src/api/ping.handler
-        description: Ping handler
         events:
             - http:
                   path: ping
                   method: get
 
-    saveSignUp:
-        handler: src/api/saveSignUp.handler
-        description: Save a sign up
+    saveRegistration:
+        handler: src/api/save-registration.handler
+        events:
+            - http:
+                  path: registrations
+                  method: post
+
+    signUp:
+        handler: src/api/sign-up.handler
         events:
             - http:
                   path: sign-ups
                   method: post
+
+    deleteAccount:
+        handler: src/api/delete-account.handler
+        events:
+            - http:
+                  path: accounts
+                  method: delete
+
+    createAccount:
+        handler: src/api/create-account.handler
+        events:
+            - http:
+                  path: accounts
+                  method: post
+
+    updateAccount:
+        handler: src/api/update-account.handler
+        events:
+            - http:
+                  path: accounts
+                  method: put
+
+    getAccountById:
+        handler: src/api/get-account-by-id.handler
+        events:
+            - http:
+                  path: accounts
+                  method: post
+
+    sendPasswordReminder:
+        handler: src/api/send-password-reminder.handler
+        events:
+            - http:
+                  path: password-reminders
+                  method: post
+
+    signOut:
+        handler: src/api/delete-session.handler
+        events:
+            - http:
+                  path: sessions
+                  method: delete
 
 custom:
 
