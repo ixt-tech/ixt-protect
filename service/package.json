@@ -5,25 +5,9 @@
     "author": "Ingemar Svensson",
     "license": "MIT",
     "private": true,
-    "devDependencies": {
-        "@types/argparse": "1.0.33",
-        "@types/aws-lambda": "^8.10.6",
-        "@types/mysql2": "types/mysql2",
-        "argparse": "1.0.10",
-        "dotenv": "^6.0.0",
-        "dotenv-cli": "^1.4.0",
-        "moment": "^2.22.2",
-        "prettier": "^1.12.1",
-        "serverless": "^1.27.3",
-        "serverless-dotenv-plugin": "1.0.2",
-        "serverless-offline": "^3.25.4",
-        "serverless-offline-sns": "^0.45.0",
-        "serverless-plugin-git-variables": "^2.0.0",
-        "serverless-plugin-tracing": "^2.0.0",
-        "serverless-plugin-warmup": "^3.6.2-rc.1",
-        "serverless-pseudo-parameters": "^1.6.0",
-        "serverless-sns-filter": "^1.1.4",
-        "serverless-webpack": "^5.1.5"
+    "scripts": {
+        "test": "NODE_ENV=test PORT=9100 ./node_modules/.bin/mocha --opts mocha.opts",
+        "offline": "sls offline start"
     },
     "dependencies": {
         "amqplib": "^0.5.2",
@@ -31,5 +15,31 @@
         "aws-sdk": "^2.255.1",
         "cognito-jwt-token-validator": "^0.0.3",
         "mysql2": "^1.5.3"
+    },
+    "devDependencies": {
+        "@types/argparse": "1.0.33",
+        "@types/aws-lambda": "^8.10.6",
+        "@types/mysql2": "types/mysql2",
+        "argparse": "1.0.10",
+        "bunyan": "^1.8.12",
+        "chai": "^4.2.0",
+        "dotenv": "^6.0.0",
+        "dotenv-cli": "^1.4.0",
+        "mocha": "^5.2.0",
+        "moment": "^2.22.2",
+        "prettier": "^1.12.1",
+        "serverless": "^1.27.3",
+        "serverless-dotenv-plugin": "1.0.2",
+        "serverless-offline": "^3.33.0",
+        "serverless-offline-sns": "^0.45.0",
+        "serverless-plugin-git-variables": "^2.0.0",
+        "serverless-plugin-tracing": "^2.0.0",
+        "serverless-plugin-warmup": "^3.6.2-rc.1",
+        "serverless-pseudo-parameters": "^1.6.0",
+        "serverless-sns-filter": "^1.1.4",
+        "serverless-webpack": "^5.1.5",
+        "sinon": "^5.0.7",
+        "supertest": "^3.4.2",
+        "webpack": "^4.6.0"
     }
 }

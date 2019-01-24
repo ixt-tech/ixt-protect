@@ -1,0 +1,6 @@
+--timeout 5000
+--reporter list
+--ui bdd
+--exit
+test/integration/bootstrap.js
+test/**/*.spec.js

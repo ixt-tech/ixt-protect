@@ -38,6 +38,7 @@ functions:
             - http:
                   path: ping
                   method: get
+                  cors: true
 
     saveRegistration:
         handler: src/api/save-registration.handler
@@ -45,6 +46,7 @@ functions:
             - http:
                   path: registrations
                   method: post
+                  cors: true
 
     signUp:
         handler: src/api/sign-up.handler
@@ -59,6 +61,7 @@ functions:
             - http:
                   path: accounts
                   method: delete
+                  cors: true
 
     createAccount:
         handler: src/api/create-account.handler
@@ -66,6 +69,7 @@ functions:
             - http:
                   path: accounts
                   method: post
+                  cors: true
 
     updateAccount:
         handler: src/api/update-account.handler
@@ -73,13 +77,15 @@ functions:
             - http:
                   path: accounts
                   method: put
+                  cors: true
 
     getAccountById:
         handler: src/api/get-account-by-id.handler
         events:
             - http:
                   path: accounts
-                  method: post
+                  method: get
+                  cors: true
 
     sendPasswordReminder:
         handler: src/api/send-password-reminder.handler
@@ -87,6 +93,7 @@ functions:
             - http:
                   path: password-reminders
                   method: post
+                  cors: true
 
     signOut:
         handler: src/api/delete-session.handler
@@ -94,6 +101,7 @@ functions:
             - http:
                   path: sessions
                   method: delete
+                  cors: true
 
 custom:
 

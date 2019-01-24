@@ -1,13 +1,15 @@
 'use strict';
+const query = require('../common/db');
+const response = require('./response');
 
 module.exports.handler = async (event, context) => {
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Success',
-      input: event,
-    }),
-  };
+  try {
+    const id = 1;
+    const result = await query('select * from application where id = ?', id);
+    return response.ok(result[0]);
+  } catch(error) {
+    return response.error(error);
+  }
 
 };
