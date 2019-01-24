@@ -169,3 +169,8 @@ member-web-app/semantic/dist/themes/material/assets/fonts/icons.svg
 member-web-app/semantic/dist/themes/material/assets/fonts/icons.ttf
 member-web-app/semantic/dist/themes/material/assets/fonts/icons.woff
 member-web-app/semantic/dist/themes/material/assets/fonts/icons.woff2
+.env
+service/.idea/modules.xml
+service/.idea/service.iml
+service/.idea/watcherTasks.xml
+service/.idea/workspace.xml
