@@ -7,11 +7,9 @@ const memberService = new MemberService();
 module.exports.handler = async (event, context) => {
 
   try {
-    const credentials = JSON.parse(event.body);
-    // validate
-
-    const token = await memberService.authenticate(credentials.email, credentials.password);
-    return response.ok({token: token});
+    const activationCode = event.body;
+    const result = await memberService.activateMember(activationCode);
+    return response.ok(result);
   } catch(error) {
     return response.error(error);
   }

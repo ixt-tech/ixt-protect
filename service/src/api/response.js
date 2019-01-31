@@ -3,8 +3,8 @@ function ok(data) {
   return json(200, data);
 }
 
-function error(data) {
-  return json(400, data);
+function error(error) {
+  return json(error.code || 500, {message: error.message});
 }
 
 function serverError(data) {

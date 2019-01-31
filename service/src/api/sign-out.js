@@ -1,5 +1,8 @@
 'use strict';
 
+const MemberService = require('../service/member-service');
+const memberService = new MemberService();
+
 module.exports.handler = async (event, context) => {
 
   return {

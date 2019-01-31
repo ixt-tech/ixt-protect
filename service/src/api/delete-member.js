@@ -1,15 +1,14 @@
 'use strict';
-
-const response = require('./response');
 const MemberService = require('../service/member-service');
 const memberService = new MemberService();
 
 module.exports.handler = async (event, context) => {
 
   try {
-    const member = JSON.parse(event.body);
-    const result = await memberService.createMember(member);
-    return response.ok(result);
+    const session = getSession(event);
+    if(!session) return response.error({ code: 403, message: 'You must sign in first' });
+    await memberService.deleteMember(session.memberId);
+    return response.ok();
   } catch(error) {
     return response.error(error);
   }

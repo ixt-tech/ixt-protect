@@ -31,7 +31,7 @@ after(function () {
 // Helper functions
 
 function startSlsOffline(done) {
-  slsOfflineProcess = spawn("sls", ["offline", "start", "--port", getSlsOfflinePort()]);
+  slsOfflineProcess = spawn("sls", ["offline", "start", "--port", getSlsOfflinePort(), "--stdio", "inherit"]);
 
   console.log(`Serverless: Offline started with PID : ${slsOfflineProcess.pid}`);
 
