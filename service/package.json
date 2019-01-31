@@ -14,7 +14,15 @@
         "aws-lambda": "^0.1.2",
         "aws-sdk": "^2.255.1",
         "cognito-jwt-token-validator": "^0.0.3",
-        "mysql2": "^1.5.3"
+        "crypto-js": "^3.1.9-1",
+        "jsonwebtoken": "^8.4.0",
+        "mysql2": "^1.5.3",
+        "randomatic": "^3.1.1",
+        "moment": "^2.22.2",
+        "nodemailer": "^4.6.7",
+        "email-templates": "^4.0.1",
+        "dotenv": "^6.0.0",
+        "dotenv-cli": "^1.4.0"
     },
     "devDependencies": {
         "@types/argparse": "1.0.33",
@@ -23,10 +31,7 @@
         "argparse": "1.0.10",
         "bunyan": "^1.8.12",
         "chai": "^4.2.0",
-        "dotenv": "^6.0.0",
-        "dotenv-cli": "^1.4.0",
         "mocha": "^5.2.0",
-        "moment": "^2.22.2",
         "prettier": "^1.12.1",
         "serverless": "^1.27.3",
         "serverless-dotenv-plugin": "1.0.2",
@@ -40,6 +45,8 @@
         "serverless-webpack": "^5.1.5",
         "sinon": "^5.0.7",
         "supertest": "^3.4.2",
-        "webpack": "^4.6.0"
+        "uuid": "^3.3.2",
+        "webpack": "^4.6.0",
+        "proxyquire": "^2.0.1"
     }
 }

@@ -2,5 +2,5 @@
 --reporter list
 --ui bdd
 --exit
-test/integration/bootstrap.js
+test/**/bootstrap.js
 test/**/*.spec.js

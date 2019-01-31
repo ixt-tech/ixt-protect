@@ -17,17 +17,12 @@ provider:
     runtime: nodejs8.10
     timeout: 25
     versionFunctions: false
-    vpc:
-        securityGroupIds: ${env:VPC_SECURITY_GROUP_IDS}
-        subnetIds: ${env:VPC_SUBNET_IDS}
     environment:
         MYSQL_HOST: ${env:MYSQL_HOST, ''}
         MYSQL_PORT: ${env:MYSQL_PORT, ''}
         MYSQL_USER: ${env:MYSQL_USER, ''}
         MYSQL_PASSWORD: ${env:MYSQL_PASSWORD, ''}
         MYSQL_DATABASE: ${env:MYSQL_DATABASE, ''}
-        GATEWAYAPI_URL: ${env:GATEWAYAPI_URL, 'http://localhost:8001'}
-        GATEWAYAPI_MOCK_ENABLED: ${env:GATEWAYAPI_MOCK_ENABLED, 'true'}
 package:
     individually: true
 
@@ -38,15 +33,6 @@ functions:
             - http:
                   path: ping
                   method: get
-                  cors: true
-
-    saveRegistration:
-        handler: src/api/save-registration.handler
-        events:
-            - http:
-                  path: registrations
-                  method: post
-                  cors: true
 
     signUp:
         handler: src/api/sign-up.handler
@@ -55,48 +41,62 @@ functions:
                   path: sign-ups
                   method: post
 
-    deleteAccount:
-        handler: src/api/delete-account.handler
+    signIn:
+        handler: src/api/sign-in.handler
         events:
             - http:
-                  path: accounts
+                  path: sign-ins
+                  method: post
+
+    activateMember:
+        handler: src/api/activate-member.handler
+        events:
+            - http:
+                  path: activations
+                  method: get
+
+    deleteMember:
+        handler: src/api/delete-member.handler
+        events:
+            - http:
+                  path: members
                   method: delete
                   cors: true
 
-    createAccount:
-        handler: src/api/create-account.handler
+    updateMember:
+        handler: src/api/update-member.handler
         events:
             - http:
-                  path: accounts
-                  method: post
-                  cors: true
-
-    updateAccount:
-        handler: src/api/update-account.handler
-        events:
-            - http:
-                  path: accounts
+                  path: members
                   method: put
                   cors: true
 
-    getAccountById:
-        handler: src/api/get-account-by-id.handler
+    getMember:
+        handler: src/api/get-member.handler
         events:
             - http:
-                  path: accounts
+                  path: members
                   method: get
                   cors: true
 
-    sendPasswordReminder:
-        handler: src/api/send-password-reminder.handler
+    passwordReminder:
+        handler: src/api/password-reminder.handler
         events:
             - http:
                   path: password-reminders
                   method: post
                   cors: true
 
+    updatePassword:
+        handler: src/api/update-password.handler
+        events:
+            - http:
+                  path: passwords
+                  method: put
+                  cors: true
+
     signOut:
-        handler: src/api/delete-session.handler
+        handler: src/api/sign-out.handler
         events:
             - http:
                   path: sessions
