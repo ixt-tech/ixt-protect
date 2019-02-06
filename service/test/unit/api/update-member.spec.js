@@ -2,7 +2,7 @@ const request = require('supertest');
 const expect = require('chai').expect;
 const uuid = require('uuid/v1');
 const moment = require('moment');
-const signUp = require('../../../src/api/sign-up');
+const signUp = require('../../../src/api/verify-email');
 const updateMember = require('../../../src/api/update-member');
 
 describe('updateMember', function test() {

@@ -2,8 +2,8 @@ const request = require('supertest');
 const expect = require('chai').expect;
 const uuid = require('uuid/v1');
 const moment = require('moment');
-const signUp = require('../../../src/api/sign-up');
-const activateMember = require('../../../src/api/activate-member');
+const signUp = require('../../../src/api/verify-email');
+const activateMember = require('../../../src/api/activate');
 const signIn = require('../../../src/api/sign-in');
 const getMember = require('../../../src/api/get-member');
 
@@ -36,7 +36,8 @@ describe('signIn', function test() {
       activateMember.handler({ body: savedMember.activationCode }, {}).then(function (response) {
 
         //sign in to get a token
-        signIn.handler({ body: {email: member.email, password: member.password} }, {}).then(function (response) {
+        const credentials = {email: member.email, password: member.password};
+        signIn.handler({ body: JSON.stringify(credentials) }, {}).then(function (response) {
           const encryptedToken = JSON.parse(response.body).token;
           // call a secured endpoint
           const headers = {};
@@ -55,9 +56,10 @@ describe('signIn', function test() {
   it('fails sign in', function test(done) {
 
     const invalidEmail = 'invalid';
+    const credentials = {email: invalidEmail, password: member.password};
 
     //sign in to get a token
-    signIn.handler({ body: {email: invalidEmail, password: member.password} }, {}).then(function (r) {
+    signIn.handler({ body: JSON.stringify(credentials) }, {}).then(function (r) {
       const response = JSON.parse(r.body);
       expect(response.message).to.equal('Sign in failed');
       expect(r.statusCode).to.equal(403);
@@ -69,9 +71,10 @@ describe('signIn', function test() {
   it('fails sign in', function test(done) {
 
     const invalidPassword = 'invalid';
+    const credentials = {email: member.email, password: invalidPassword};
 
     //sign in to get a token
-    signIn.handler({ body: {email: member.email, password: invalidPassword} }, {}).then(function (r) {
+    signIn.handler({ body: JSON.stringify(credentials) }, {}).then(function (r) {
       const response = JSON.parse(r.body);
       expect(response.message).to.equal('Sign in failed');
       expect(r.statusCode).to.equal(403);

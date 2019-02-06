@@ -3,11 +3,15 @@
 class Emailer {
 
   constructor() {
+    this.activationCode = '';
   }
 
-  sendEmailVerification(member) {
-    console.log('Sending dummy activation', member);
-    this.activationCode = member.activationCode;
+  sendEmailVerification(credentials) {
+    this.activationCode = credentials.activationCode;
+  }
+
+  getActivationCode() {
+    return this.activationCode;
   }
 
 }
