@@ -1,16 +1,16 @@
 'use strict';
 
+const getSession = require('../common/auth');
+const response = require('./response');
 const MemberService = require('../service/member-service');
 const memberService = new MemberService();
 
 module.exports.handler = async (event, context) => {
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Success',
-      input: event,
-    }),
-  };
+  const session = getSession(event);
+  if(session) {
+    //
+  }
+  return response.ok({message: 'You signed out'});
 
 };

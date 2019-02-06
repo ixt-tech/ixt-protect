@@ -14,9 +14,10 @@ function getSession(event) {
   if (headers !== null && headers !== undefined) {
     // now get the token header
     let accessTokenHeader = headers['x-access-token'];
-    accessTokenHeader = accessTokenHeader.replace(/"/g, '');
     try {
-      return utils.decryptJwt(accessTokenHeader);
+      const session = utils.decryptJwt(accessTokenHeader);
+      console.log(session);
+      return session;
     } catch(error) {
       return undefined;
     }

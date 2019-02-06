@@ -7,6 +7,11 @@ require('dotenv').config({path: path.join(__dirname, '/') + '.env'});
 
 let transporter;
 
+/**
+ * GMAIL set up:
+ * - Needs to have an app password defined on account
+ * - Needs to have enabled access by less secured apps
+ */
 class Emailer {
 
   constructor() {
@@ -19,7 +24,6 @@ class Emailer {
         pass: process.env.EMAIL_AUTH_PASS
       }
     };
-
     transporter = nodemailer.createTransport(this.configuration);
   }
 
@@ -28,7 +32,7 @@ class Emailer {
       from: '"IXT Global" <noreply@ixt.global>',
       to: member.email,
       subject: 'Verify your email address',
-      templatePath: path.resolve(__dirname, '../../../test','template','email'),
+      templatePath: path.resolve(__dirname, '../../','template','email'),
       vars: {
         member: member,
         baseUrl: process.env.BASE_URL + '/activations'
