@@ -1,58 +1,30 @@
 import React from 'react';
-import {Button, Form, Grid, Header, Image, Message, Segment, Checkbox} from 'semantic-ui-react';
+import {Button, Form, Grid, Label, Message, Segment} from 'semantic-ui-react';
+import StripeCheckout from 'react-stripe-checkout';
 import './styles.css';
 import httpClient from '../../services/http-client';
-import PasswordDialog from '../../components/password-dialog';
-import InvitationLink from '../../components/invitation-link';
-import moment from 'moment';
+import moment from "moment/moment";
 
-class AccountPage extends React.Component {
+class PersonalDetailsPage extends React.Component {
 
   constructor(props) {
-
     super(props);
     this.state = {
-      account: {},
+      account: props.location.state.account,
       formInvalid: false,
       showSuccess: false,
       error: ''
     }
-
   }
 
-  componentDidMount = () => {
-
-    httpClient.get('/members').subscribe(
-      response => {
-        const account = response;
-        const dateOfBirth = moment(account.dateOfBirth);
-        const day = dateOfBirth.date();
-        const month = dateOfBirth.month();
-        const year = dateOfBirth.year();
-        this.setState({account: account, day: day, month: month, year: year});
-      },
-      error => {
-        this.setState({ formInvalid: true, error: error });
-      },
-    );
-
-  };
-
   handleDateChange = (e, value) => {
-
     this.setState({[e.target.name]: e.target.value});
-    let dateOfBirth = moment();
-    dateOfBirth.date(this.state.day);
-    dateOfBirth.month(this.state.month);
-    dateOfBirth.year(this.state.year);
-
   }
 
   handleCountryChange = (e, value) => {
     const account = this.state.account;
     account['country'] = e.target.value;
     this.setState({account});
-
   }
 
   handleChange = (e, {name, value}) => {
@@ -63,27 +35,27 @@ class AccountPage extends React.Component {
 
   }
 
-  handleSubmit = () => {
-
+  handleSubmit = (paymentToken) => {
     const account = this.state.account;
-    let dateOfBirth = moment().year(this.state.year).month(this.state.month).date(this.state.day)
-    account.dateOfBirth = dateOfBirth.valueOf();
+    let dateOfBirth = moment();
+    dateOfBirth.date(this.state.day);
+    dateOfBirth.month(this.state.month);
+    dateOfBirth.year(this.state.year);
+    account.dateOfBirth = dateOfBirth.utc().valueOf();
+
+    const body = {
+      account: account,
+      paymentToken: paymentToken.id
+    }
 
     // validate
-    httpClient.put('/members', account).subscribe(
+    httpClient.post('/checkout', body).subscribe(
       response => {
-        const account = response;
-        const dateOfBirth = moment(account.dateOfBirth);
-        const day = dateOfBirth.date();
-        const month = dateOfBirth.month();
-        const year = dateOfBirth.year();
-        this.setState({account: account, day: day, month: month, year: year, showSuccess: true});
-        setTimeout(() => {
-          this.setState({ showSuccess: false })
-        }, 5000)
+        localStorage.setItem('ACCOUNT', response);
+        this.props.history.push("/thank-you");
       },
       error => {
-        this.setState({ formInvalid: true, showSuccess: false });
+        this.setState({ formInvalid: true});
       },
     );
 
@@ -91,34 +63,23 @@ class AccountPage extends React.Component {
 
   render() {
 
-    const {account, day, month, year} = this.state;
+    const {day, month, year} = this.state;
+
     return (
 
-      <div className='account-form'>
-        <Grid>
+      <div className='personal-detail-form'>
+        <Grid style={{height: '100%'}}>
           <Grid.Column>
-            <Form size='large' error={this.state.formInvalid} onSubmit={this.handleSubmit}>
+            <Form size='large' error={this.state.formInvalid}>
               <Segment>
 
-                <Message
-                  error
-                  content={this.error}
-                />
-                {
-                  this.state.showSuccess &&
-                  <Message
-                    positive
-                    content='Account saved successfully'
-                  />
-                }
-
                 <Form.Group>
-                  <Form.Input fluid label='First name' defaultValue={this.state.account.firstName} placeholder='First name' required width={4}/>
-                  <Form.Input fluid label='Last name' defaultValue={this.state.account.lastName} placeholder='Last name' required width={4}/>
+                  <Form.Input name='firstName' fluid label='First name' onChange={this.handleChange} placeholder='First name' required width={4}/>
+                  <Form.Input name='lastName' fluid label='Last name' onChange={this.handleChange} placeholder='Last name' required width={4}/>
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Dropdown name='day' label='Date of Birth' value={day} placeholder='Day' onChange={this.handleDateChange} control='select' required>
+                  <Form.Input name='day' label='Date of Birth' onChange={this.handleDateChange} placeholder='Day' control='select' required>
                     <option value=''>Day</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
@@ -151,9 +112,8 @@ class AccountPage extends React.Component {
                     <option value='29'>29</option>
                     <option value='30'>30</option>
                     <option value='31'>31</option>
-                  </Form.Dropdown>
-
-                  <Form.Input name='month' value={month} placeholder='Month' onChange={this.handleDateChange} control='select' className='no-label'>
+                  </Form.Input>
+                  <Form.Input name='month' placeholder='Month' onChange={this.handleDateChange} control='select' className='no-label'>
                     <option value=''>Month</option>
                     <option value='0'>January</option>
                     <option value='1'>February</option>
@@ -168,8 +128,7 @@ class AccountPage extends React.Component {
                     <option value='10'>November</option>
                     <option value='11'>December</option>
                   </Form.Input>
-
-                  <Form.Input name='year' value={year} placeholder='Year' onChange={this.handleDateChange} control='select' className='no-label'>
+                  <Form.Input name='year' placeholder='Year' onChange={this.handleDateChange} control='select' className='no-label'>
                     <option value=''>Year</option>
                     <option value='2003'>2003</option>
                     <option value='2002'>2002</option>
@@ -240,25 +199,20 @@ class AccountPage extends React.Component {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='email' defaultValue={account.email} label='Email' placeholder='Email' onChange={this.handleChange} required width={5} fluid/>
-                  <PasswordDialog/>
+                  <Form.Input name='addressLine1' fluid label='Address' onChange={this.handleChange}  placeholder='Address line 1' width={8} required/>
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='addressLine1' defaultValue={account.addressLine1} label='Address line 1' placeholder='Address line 1' onChange={this.handleChange} width={8} required fluid/>
+                  <Form.Input name='addressLine2' fluid placeholder='Address line 2' onChange={this.handleChange} width={8}/>
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='addressLine2' defaultValue={account.addressLine2} label='Address line 2' placeholder='Address line 2' onChange={this.handleChange} width={8} fluid/>
+                  <Form.Input name='town' fluid label='Town' onChange={this.handleChange} placeholder='Town' width={4} required/>
+                  <Form.Input name='postcode' fluid label='Postcode' onChange={this.handleChange} placeholder='Postcode' width={4} required/>
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='town' defaultValue={account.town} label='Town' placeholder='Town' onChange={this.handleChange} width={4} required fluid/>
-                  <Form.Input name='postcode' defaultValue={account.postcode} label='Postcode' placeholder='Postcode' onChange={this.handleChange} width={4} required fluid/>
-                </Form.Group>
-
-                <Form.Group>
-                  <Form.Input name='country' value={account.country} label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required>
+                  <Form.Input name='country' label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required>
                     <option value=''>Select country</option>
                     <option value='South Korea'>South Korea</option>
                     <option value='Japan'>Japan</option>
@@ -502,13 +456,20 @@ class AccountPage extends React.Component {
                   </Form.Input>
                 </Form.Group>
 
-                <Form.Group>
-                  <InvitationLink/>
-                </Form.Group>
-
-                <Button.Group floated='right'>
-                  <Button color='orange'>Save</Button>
-                </Button.Group>
+                <StripeCheckout
+                  amount={3900.00}
+                  description='12 months membership'
+                  locale='auto'
+                  name='IXT Protect'
+                  email={this.state.account.email}
+                  stripeKey={process.env.REACT_APP_STRIPE_KEY}
+                  token={this.handleSubmit}
+                  allowRememberMe={false}
+                  label='Pay'>
+                  <Button color='orange' floated='right'>
+                    Pay with card
+                  </Button>
+                </StripeCheckout>
                 <br/>
                 <br/>
 
@@ -521,4 +482,4 @@ class AccountPage extends React.Component {
   }
 }
 
-export default AccountPage;
+export default PersonalDetailsPage;

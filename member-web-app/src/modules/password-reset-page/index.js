@@ -19,13 +19,13 @@ class PasswordReminderPage extends React.Component {
     }
   }
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+  handleChange = (e, {name, value}) => this.setState({[name]: value});
 
   handleSubmit = () => {
     const body = {
       email: this.state.email
     };
-    this.setState({ formInvalid: true });
+    this.setState({formInvalid: true});
     // validate
     //httpClient.post('/password-reminders', email);
   }
@@ -41,14 +41,15 @@ class PasswordReminderPage extends React.Component {
         height: 100%;
       }
     `}</style>
-        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
-          <Grid.Column style={{ maxWidth: 450 }}>
+        <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
+          <Grid.Column style={{maxWidth: 450}}>
             <Header as='h2' textAlign='center'>
               Email password reset link
             </Header>
             <Form size='large' onSubmit={this.handleSubmit}>
               <Segment>
-                <Form.Input name='email' icon='user' onChange={this.handleChange} iconPosition='left' placeholder='Email address' fluid />
+                <Form.Input name='email' icon='user' onChange={this.handleChange} iconPosition='left'
+                            placeholder='Email address' fluid/>
                 <Button color='blue' fluid>
                   Send
                 </Button>

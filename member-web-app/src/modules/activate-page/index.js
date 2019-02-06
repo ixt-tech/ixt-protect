@@ -10,14 +10,14 @@ import {
 } from 'semantic-ui-react';
 import httpClient from '../../services/http-client';
 
-class SignInPage extends React.Component {
+class ActivatePage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      formInvalid: false
+      activationCode: '',
+      formInvalid: false,
+      error: ''
     }
   }
 
@@ -25,30 +25,27 @@ class SignInPage extends React.Component {
 
   handleSubmit = () => {
     const body = {
-      email: this.state.email,
-      password: this.state.password,
+      activationCode: this.state.activationCode
     };
     // validate
-    httpClient.post('/sign-ins', body).subscribe(
+    httpClient.post('/activations', body).subscribe(
       response => {
-        if (response.accessToken) {
-          localStorage.setItem('ACCESS_TOKEN', response.accessToken);
-          this.props.history.push("/account");
-        } else {
-          localStorage.setItem('ACCESS_TOKEN', undefined);
-          this.setState({formInvalid: true});
-        }
+        localStorage.setItem('ACCESS_TOKEN', response.accessToken);
+        this.props.history.push({
+          pathname: '/personal-details',
+          state: { account: response.account }
+        })
       },
       error => {
-        this.setState({formInvalid: true});
+        this.setState({formInvalid: true, error: error});
       },
     );
 
     this.setState({
       disableForm: false,
-      email: '',
-      password: '',
+      activationCode: '',
       formInvalid: false,
+      error: ''
     });
 
   }
@@ -67,28 +64,23 @@ class SignInPage extends React.Component {
         <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
           <Grid.Column style={{maxWidth: 450}}>
             <Header as='h3' textAlign='center'>
-              Sign in to your account
+              Activate your IXT Protect account
             </Header>
             <Segment>
               <Form size='large' onSubmit={this.handleSubmit} error={this.state.formInvalid}>
                 <Message
                   error
-                  content='Sign in failed'
+                  content='Invalid activation code'
                 />
-                <Form.Input icon='user' name='email' onChange={this.handleChange} iconPosition='left'
-                            placeholder='Email address' required fluid/>
-                <Form.Input icon='lock' name='password' onChange={this.handleChange} iconPosition='left'
-                            placeholder='Password' type='password' required fluid/>
-
+                <Form.Input name='activationCode' label='Activation code' onChange={this.handleChange}
+                            placeholder='Enter your 6 digit code' required fluid/>
                 <Button color='orange' floated='right'>
-                  Sign in
+                  Next
                 </Button>
                 <br/>
                 <br/>
               </Form>
             </Segment>
-            <br/>
-            New to us? <a href='/join'>Sign Up</a>. Forgot your password? <a href='/password-reminder'>Reset it</a>.
           </Grid.Column>
         </Grid>
       </div>
@@ -96,4 +88,4 @@ class SignInPage extends React.Component {
   }
 }
 
-export default SignInPage;
+export default ActivatePage;

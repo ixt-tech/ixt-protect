@@ -339,3 +339,4 @@ member-web-app/node_modules/.cache/babel-loader/10eda8a89d8dc7f02c33886bbecc84c8
 member-web-app/node_modules/.cache/babel-loader/10f87c3463a582cd855f9bb341fe748b.json
 service/src/jwt/jwt.priv.key
 service/src/jwt/jwt.pub.key
+misc.xml
