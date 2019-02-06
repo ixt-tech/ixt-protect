@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import { Container } from 'semantic-ui-react'
+import {Container} from 'semantic-ui-react'
 import PrivateRoute from "react-private-route";
 import Loadable from 'react-loadable';
 import Header from './components/header';
@@ -11,40 +11,63 @@ import "./app.css";
 
 const JoinPage = Loadable({
   loader: () => import('./modules/join-page'),
-  loading: () => <Connecting />,
+  loading: () => <Connecting/>,
+});
+
+const ActivatePage = Loadable({
+  loader: () => import('./modules/activate-page'),
+  loading: () => <Connecting/>,
+});
+
+const PersonalDetailsPage = Loadable({
+  loader: () => import('./modules/personal-details-page'),
+  loading: () => <Connecting/>,
 });
 
 const SignInPage = Loadable({
   loader: () => import('./modules/sign-in-page'),
-  loading: () => <Connecting />,
+  loading: () => <Connecting/>,
 });
 
 const PasswordResetPage = Loadable({
   loader: () => import('./modules/password-reset-page'),
-  loading: () => <Connecting />,
+  loading: () => <Connecting/>,
 });
 
 const AccountPage = Loadable({
   loader: () => import('./modules/account-page'),
-  loading: () => <Connecting />,
+  loading: () => <Connecting/>,
+});
+
+const ThankYouPage = Loadable({
+  loader: () => import('./modules/thank-you-page'),
+  loading: () => <Connecting/>,
 });
 
 class App extends Component {
 
   isSignedIn() {
-    return true;
+    return localStorage.getItem('ACCESS_TOKEN') != undefined;
   }
 
   render() {
     return (
       <div className="App">
-        <Header />
+        <Header/>
         <Container>
           <Router>
             <Switch>
-              <Route path="/join" component={JoinPage} />
-              <Route path="/sign-in" component={SignInPage} />
-              <Route path="/password-reset" component={PasswordResetPage} />
+              <Route path="/join" component={JoinPage}/>
+              <Route path="/activate" component={ActivatePage}/>
+              <PrivateRoute
+                exact
+                path="/personal-details"
+                component={PersonalDetailsPage}
+                isAuthenticated={this.isSignedIn()}
+                redirect="/sign-up"
+              />
+              <Route path="/sign-in" component={SignInPage}/>
+              <Route path="/password-reset" component={PasswordResetPage}/>
               <PrivateRoute
                 exact
                 path="/account"
@@ -52,11 +75,18 @@ class App extends Component {
                 isAuthenticated={this.isSignedIn()}
                 redirect="/sign-in"
               />
+              <PrivateRoute
+                exact
+                path="/thank-you"
+                component={ThankYouPage}
+                isAuthenticated={this.isSignedIn()}
+                redirect="/sign-in"
+              />
             </Switch>
           </Router>
         </Container>
-        <Footer />
-    </div>
+        <Footer/>
+      </div>
     );
   }
 }
