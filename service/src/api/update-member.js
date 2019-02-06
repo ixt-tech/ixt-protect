@@ -11,6 +11,8 @@ module.exports.handler = async (event, context) => {
   if(!session) return response.error({ code: 403, message: 'You must sign in first' });
   try {
     const member = JSON.parse(event.body);
+    // Enforce updating of yourself only
+    member.id = session.memberId;
     const result = await memberService.updateMember(member);
     return response.ok(result);
   } catch(error) {

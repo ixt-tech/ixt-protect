@@ -97,9 +97,6 @@ class MemberService {
     const salt = member.salt;
     const oldPasswordHash = utils.hashPassword(salt ? (salt + oldPassword) : oldPassword);
     const newPasswordHash = utils.hashPassword(salt ? (salt + newPassword) : newPassword);
-    console.log('ID', memberId);
-    console.log('NEW', newPassword);
-    console.log('OLD', oldPassword);
     if(member.password === oldPasswordHash) {
       await query('update member set password = ? where id = ' + memberId, [newPasswordHash])
     } else {

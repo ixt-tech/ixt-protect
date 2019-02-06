@@ -7,7 +7,6 @@ import {
   Popup,
 } from 'semantic-ui-react';
 import './styles.css';
-import {fromBn, asNum} from "../../utils/number";
 
 class InvitationLink extends React.Component {
 
