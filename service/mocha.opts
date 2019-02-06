@@ -1,6 +1,5 @@
 --timeout 5000
 --reporter list
 --ui bdd
---exit
 test/**/bootstrap.js
 test/**/*.spec.js

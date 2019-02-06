@@ -15,14 +15,15 @@
         "aws-sdk": "^2.255.1",
         "cognito-jwt-token-validator": "^0.0.3",
         "crypto-js": "^3.1.9-1",
-        "jsonwebtoken": "^8.4.0",
-        "mysql2": "^1.5.3",
-        "randomatic": "^3.1.1",
-        "moment": "^2.22.2",
-        "nodemailer": "^4.6.7",
-        "email-templates": "^4.0.1",
         "dotenv": "^6.0.0",
-        "dotenv-cli": "^1.4.0"
+        "dotenv-cli": "^1.4.0",
+        "email-templates": "^4.0.1",
+        "jsonwebtoken": "^8.4.0",
+        "moment": "^2.22.2",
+        "mysql2": "^1.5.3",
+        "nodemailer": "^4.6.7",
+        "randomatic": "^3.1.1",
+        "stripe": "^6.23.1"
     },
     "devDependencies": {
         "@types/argparse": "1.0.33",

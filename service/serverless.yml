@@ -33,13 +33,51 @@ functions:
             - http:
                   path: ping
                   method: get
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
-    signUp:
-        handler: src/api/sign-up.handler
+    verifyEmail:
+        handler: src/api/verify-email.handler
         events:
             - http:
-                  path: sign-ups
+                  path: email-verifications
                   method: post
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
+
+    activate:
+        handler: src/api/activate.handler
+        events:
+            - http:
+                  path: activations
+                  method: post
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
+
+    checkout:
+        handler: src/api/checkout.handler
+        events:
+            - http:
+                  path: checkout
+                  method: post
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
     signIn:
         handler: src/api/sign-in.handler
@@ -47,6 +85,12 @@ functions:
             - http:
                   path: sign-ins
                   method: post
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
     activateMember:
         handler: src/api/activate-member.handler
@@ -54,6 +98,12 @@ functions:
             - http:
                   path: activations
                   method: get
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
     deleteMember:
         handler: src/api/delete-member.handler
@@ -61,7 +111,12 @@ functions:
             - http:
                   path: members
                   method: delete
-                  cors: true
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
     updateMember:
         handler: src/api/update-member.handler
@@ -69,7 +124,12 @@ functions:
             - http:
                   path: members
                   method: put
-                  cors: true
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
     getMember:
         handler: src/api/get-member.handler
@@ -77,7 +137,12 @@ functions:
             - http:
                   path: members
                   method: get
-                  cors: true
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
     passwordReminder:
         handler: src/api/password-reminder.handler
@@ -85,15 +150,25 @@ functions:
             - http:
                   path: password-reminders
                   method: post
-                  cors: true
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
     updatePassword:
         handler: src/api/update-password.handler
         events:
             - http:
-                  path: passwords
+                  path: /members/password
                   method: put
-                  cors: true
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
     signOut:
         handler: src/api/sign-out.handler
@@ -101,7 +176,12 @@ functions:
             - http:
                   path: sessions
                   method: delete
-                  cors: true
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
 
 custom:
 
