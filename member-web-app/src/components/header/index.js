@@ -13,7 +13,7 @@ const Header = props => {
       <Menu.Item as='a' href='http://ixt.global'>
         <img src={logo} className='logo'/>
       </Menu.Item>
-      <Menu.Menu position='right'>
+      <Menu.Menu>
         <Menu.Item as='a' href='https://ixt.global/ixt-protect'>Home</Menu.Item>
         <Menu.Item as='a' href='/account'>Account</Menu.Item>
         <Menu.Item as='a' href='http://ixt.global'>Blog</Menu.Item>

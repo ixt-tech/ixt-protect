@@ -7,11 +7,11 @@ import {
   Popup,
 } from 'semantic-ui-react';
 import './styles.css';
-import { fromBn, asNum } from "../../utils/number";
+import {fromBn, asNum} from "../../utils/number";
 
 class InvitationLink extends React.Component {
 
-  state = { invitationLink: '' };
+  state = {invitationLink: ''};
 
   constructor(props) {
     super(props);
@@ -20,9 +20,9 @@ class InvitationLink extends React.Component {
 
   componentDidMount = async () => {
     const member = this.props.member;
-    const invitationLink = 'https://protect.ixt.global/join?invitation=' + this.props.invitationCode;
+    const invitationLink = 'protect.ixt.global/join?invitation=' + this.props.invitationCode;
     const invitationReward = this.props.invitationReward;
-    this.setState({ invitationLink, invitationReward });
+    this.setState({invitationLink, invitationReward});
   }
 
   copy() {
@@ -42,8 +42,9 @@ class InvitationLink extends React.Component {
         <Grid>
           <Grid.Column width={16}>
             <Segment>
-              <b>{ this.state.invitationLink }</b>
-              <Popup trigger={<Button className='invitation' size='small' icon='copy outline' onClick={this.copy} />} content='Copied to clipboard' on='click' hideOnScroll/>
+              <b>{this.state.invitationLink}</b>
+              <Popup trigger={<Button className='invitation' size='small' icon='copy outline' onClick={this.copy}/>}
+                     content='Copied to clipboard' on='click' hideOnScroll/>
             </Segment>
           </Grid.Column>
         </Grid>

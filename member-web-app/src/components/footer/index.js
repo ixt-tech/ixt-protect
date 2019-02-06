@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Menu,
+  Container,
 } from 'semantic-ui-react';
 import './styles.css';
 import logo from '../../images/logo.png'
@@ -8,16 +9,22 @@ import logo from '../../images/logo.png'
 const Footer = props => {
   return (
     <Menu borderless className='footer'>
-
       <Menu.Item as='a' href='http://ixt.global'>
         <img src={logo} className='logo'/>
       </Menu.Item>
-      <Menu.Menu position='right'>
-        <Menu.Item as='a' href='https://ixt.global/ixt-protect'>Home</Menu.Item>
-        <Menu.Item as='a' href='/account'>Account</Menu.Item>
-        <Menu.Item as='a' href='http://ixt.global'>Blog</Menu.Item>
-        <Menu.Item as='a' href='https://www.ixt.global/contact-us/'>Contact us</Menu.Item>
+      <Menu.Menu>
+        <Menu.Item>Copyright 2019 &copy; IXT Protect</Menu.Item>
+        <Menu.Item as='a' href='#'>Privacy Policy</Menu.Item>
+        <Menu.Item as='a' href='#'>Cookie Policy</Menu.Item>
+        <Menu.Item as='a' href='#'>Terms and Conditions</Menu.Item>
       </Menu.Menu>
+      {process.env.NODE_ENV == 'development' &&
+      <Menu.Menu position='right'>
+        <Menu.Item>
+          <small>You are running this application in <b>{process.env.NODE_ENV}</b> mode against {process.env.REACT_APP_API_URL}</small>
+        </Menu.Item>
+      </Menu.Menu>
+      }
     </Menu>
   );
 };
