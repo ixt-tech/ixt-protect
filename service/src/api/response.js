@@ -4,7 +4,7 @@ function ok(data) {
 }
 
 function error(error) {
-  return json(error.code || 500, {message: error.message});
+  return json(error.code, error.message)
 }
 
 function serverError(data) {

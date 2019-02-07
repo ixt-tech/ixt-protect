@@ -15,7 +15,7 @@ class AccountPage extends React.Component {
       account: {},
       formInvalid: false,
       showSuccess: false,
-      error: ''
+      errors: []
     }
 
   }
@@ -32,7 +32,9 @@ class AccountPage extends React.Component {
         this.setState({account: account, day: day, month: month, year: year});
       },
       error => {
-        this.setState({ formInvalid: true, error: error });
+        const errors = this.state.errors;
+        errors.push(error.response.data);
+        this.setState({ formInvalid: true, errors: errors });
       },
     );
 
@@ -49,6 +51,7 @@ class AccountPage extends React.Component {
   }
 
   handleCountryChange = (e, value) => {
+
     const account = this.state.account;
     account['country'] = e.target.value;
     this.setState({account});
@@ -65,8 +68,9 @@ class AccountPage extends React.Component {
 
   handleSubmit = () => {
 
+    const errors = [];
     const account = this.state.account;
-    let dateOfBirth = moment().year(this.state.year).month(this.state.month).date(this.state.day)
+    let dateOfBirth = moment().year(this.state.year).month(this.state.month).date(this.state.day);
     account.dateOfBirth = dateOfBirth.valueOf();
 
     // validate
@@ -83,7 +87,8 @@ class AccountPage extends React.Component {
         }, 5000)
       },
       error => {
-        this.setState({ formInvalid: true, showSuccess: false });
+        errors.push(error.response.data);
+        this.setState({ formInvalid: true, showSuccess: false, errors: errors });
       },
     );
 
@@ -102,7 +107,8 @@ class AccountPage extends React.Component {
 
                 <Message
                   error
-                  content={this.error}
+                  header='There was a problem'
+                  list={this.state.errors}
                 />
                 {
                   this.state.showSuccess &&

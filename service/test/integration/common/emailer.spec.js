@@ -7,7 +7,7 @@ const emailer = new Emailer();
 require('dotenv').config({path: path.join(__dirname, '/') + '.env'});
 
 describe('Emailer', function() {
-
+/*
   it('should send an email', function(done) {
 
     let mailOptions = {
@@ -19,6 +19,7 @@ describe('Emailer', function() {
     done();
 
   });
+*/
 
   it('should send an email with template', function(done) {
 
@@ -28,11 +29,12 @@ describe('Emailer', function() {
       subject: 'Test email with template from the Dev team',
       templatePath: path.resolve(__dirname, '../../../test','template','email')
     };
-    emailer.send(mailOptions, 'email-verification');
+    emailer.send(mailOptions, 'test-template');
     done();
 
   });
 
+  /*
   it('should send email verification', function(done) {
 
     const member = {
@@ -45,5 +47,5 @@ describe('Emailer', function() {
     done();
 
   });
-
+*/
 });

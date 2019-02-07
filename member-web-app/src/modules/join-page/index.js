@@ -34,44 +34,43 @@ class JoinPage extends React.Component {
 
   handleSubmit = () => {
 
-    this.setState({formInvalid: false, errors: []});
+    const errors = [];
+    this.setState({formInvalid: false, errors: errors});
 
     // validate
     if(this.state.password.length < 8) {
-      let errors = this.state.errors;
       errors.push('Password must be 8 characters or more');
       this.setState({formInvalid: true, errors: errors});
-      return;
     }
     if(this.state.password != this.state.password2) {
-      let errors = this.state.errors;
       errors.push('Passwords don\'t match');
       this.setState({formInvalid: true, errors: errors});
-      return;
     }
-    const body = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    httpClient.post('/email-verifications', body).subscribe(
-      response => {
-        this.props.history.push("/activate");
-      },
-      error => {
-        let errors = this.state.errors;
-        errors.push(error.message);
-        this.setState({formInvalid: true, errors: errors});
-        return;
-      },
-    );
 
-    this.setState({
-      disableForm: false,
-      email: '',
-      password: '',
-      formInvalid: false,
-      errors: []
-    });
+    if(errors.length == 0) {
+      const body = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+      httpClient.post('/email-verifications', body).subscribe(
+        response => {
+          this.props.history.push("/activate");
+          this.setState({
+            disableForm: false,
+            email: '',
+            password: '',
+            formInvalid: false,
+            errors: errors
+          });
+        },
+        error => {
+          let errors = this.state.errors;
+          errors.push(error.response.data);
+          this.setState({formInvalid: true, errors: errors});
+          return;
+        },
+      );
+    }
 
   }
 
@@ -95,6 +94,7 @@ class JoinPage extends React.Component {
               <Form size='large' onSubmit={this.handleSubmit} error={this.state.formInvalid}>
                 <Message
                   error
+                  header='There was a problem'
                   list={this.state.errors}
                 />
                 <Form.Input name='email' label='Email' onChange={this.handleChange} placeholder='e.g. name@example.com' required fluid/>

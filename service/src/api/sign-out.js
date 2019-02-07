@@ -9,7 +9,7 @@ module.exports.handler = async (event, context) => {
 
   const session = getSession(event);
   if(session) {
-    //
+    await memberService.signOut(session.memberId);
   }
   return response.ok({message: 'You signed out'});
 

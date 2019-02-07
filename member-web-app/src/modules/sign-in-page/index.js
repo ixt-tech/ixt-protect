@@ -17,7 +17,7 @@ class SignInPage extends React.Component {
     this.state = {
       email: '',
       password: '',
-      formInvalid: false
+      formInvalid: false,
     }
   }
 

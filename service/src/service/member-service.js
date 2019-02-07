@@ -60,11 +60,11 @@ class MemberService {
 
   }
 
-  async authenticate(email, password) {
+  async signIn(email, password) {
 
     const member = await this.getMemberByEmail(email);
     if(member &&
-       member.password === utils.hashPassword(member.salt ? (member.salt + password) : password) &&
+       member.password === utils.hashPassword(member.salt + password) &&
        member.status == 'ACTIVE') {
 
       const session = await this.createSession(member);
@@ -84,9 +84,43 @@ class MemberService {
       memberId: member.id,
       email: member.email
     };
+
     member.lastSignIn = moment();
-    await this.updateMember(member);
+    member.sessionStatus = 'ACTIVE';
+    this._setTraceInfo(member);
+    const sql = 'update member set ' +
+      'sessionStatus = ?, ' +
+      'lastSignedIn = ? ' +
+      'where id = ' + member.id;
+    const params = [
+      member.sessionStatus,
+      utils.toSqlTimestamp(member.lastSignedIn)
+    ]
+    await query(sql, params);
     return utils.createJwt(session);
+
+  }
+
+  async signOut(id) {
+
+    this._setTraceInfo(member);
+    const sql = 'update member set ' +
+      'sessionStatus = ? ' +
+      'where id = ' + id;
+    const params = [
+      'EXPIRED'
+    ]
+    await query(sql, params);
+
+  }
+
+  async isSessionActive(id) {
+
+    let sql = 'select ' +
+      'sessionStatus ' +
+      'from member where id = ?';
+    const result = await query(sql, [id]);
+    return result[0][0].sessionStatus == 'ACTIVE';
 
   }
 
@@ -95,8 +129,8 @@ class MemberService {
     let member = await this.getMemberById(memberId);
 
     const salt = member.salt;
-    const oldPasswordHash = utils.hashPassword(salt ? (salt + oldPassword) : oldPassword);
-    const newPasswordHash = utils.hashPassword(salt ? (salt + newPassword) : newPassword);
+    const oldPasswordHash = utils.hashPassword(salt + oldPassword);
+    const newPasswordHash = utils.hashPassword(salt + newPassword);
     if(member.password === oldPasswordHash) {
       await query('update member set password = ? where id = ' + memberId, [newPasswordHash])
     } else {
@@ -219,6 +253,7 @@ class MemberService {
   }
 
   async getMemberByActivationCode(activationCode) {
+
     const result = await this.getMember('where activationCode = ?', [activationCode]);
     if(result && result[0].length > 0) {
       return result[0][0];

@@ -8,13 +8,15 @@ import moment from "moment/moment";
 class PersonalDetailsPage extends React.Component {
 
   constructor(props) {
+
     super(props);
     this.state = {
       account: props.location.state.account,
       formInvalid: false,
       showSuccess: false,
-      error: ''
+      errors: []
     }
+
   }
 
   handleDateChange = (e, value) => {
@@ -22,9 +24,11 @@ class PersonalDetailsPage extends React.Component {
   }
 
   handleCountryChange = (e, value) => {
+
     const account = this.state.account;
     account['country'] = e.target.value;
     this.setState({account});
+
   }
 
   handleChange = (e, {name, value}) => {
@@ -36,11 +40,10 @@ class PersonalDetailsPage extends React.Component {
   }
 
   handleSubmit = (paymentToken) => {
+
+    const errors = [];
     const account = this.state.account;
-    let dateOfBirth = moment();
-    dateOfBirth.date(this.state.day);
-    dateOfBirth.month(this.state.month);
-    dateOfBirth.year(this.state.year);
+    let dateOfBirth = moment().year(this.state.year).month(this.state.month).date(this.state.day);
     account.dateOfBirth = dateOfBirth.utc().valueOf();
 
     const body = {
@@ -55,7 +58,8 @@ class PersonalDetailsPage extends React.Component {
         this.props.history.push("/thank-you");
       },
       error => {
-        this.setState({ formInvalid: true});
+        errors.push(error.response.data);
+        this.setState({ formInvalid: true, errors: errors });
       },
     );
 
@@ -72,6 +76,12 @@ class PersonalDetailsPage extends React.Component {
           <Grid.Column>
             <Form size='large' error={this.state.formInvalid}>
               <Segment>
+
+                <Message
+                  error
+                  header='There was a problem'
+                  list={this.state.errors}
+                />
 
                 <Form.Group>
                   <Form.Input name='firstName' fluid label='First name' onChange={this.handleChange} placeholder='First name' required width={4}/>

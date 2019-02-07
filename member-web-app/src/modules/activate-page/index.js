@@ -37,7 +37,7 @@ class ActivatePage extends React.Component {
         })
       },
       error => {
-        this.setState({formInvalid: true, error: error});
+        this.setState({formInvalid: true, error: error.response.data});
       },
     );
 

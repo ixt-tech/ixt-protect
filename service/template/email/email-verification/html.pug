@@ -4,13 +4,11 @@ include ../mixins.pug
 +style
 
 +email-main-wrap
-    +email-content-wrap
-        +text('Hi')
-        +text('Welcome to IXT Protect! We&apos;re very pleased to have you as one of our members.')
-        +text('Your activation code is below - copy it and paste it into the activation page to activate your account.')
-        +email-content-focus-wrap
-            +focus-button(member.activationCode)
-        p
-            +text-standard('Closed your tab? Click ')
-            +link('here', url)
+    +text('Hi')
+    +text('Welcome to IXT Protect! We&apos;re very pleased to have you as one of our members.')
+    +text('Your activation code is below - copy it and paste it into the activation page to activate your account.')
+    +focus-button(member.activationCode)
+    p
+    +text-standard('Closed your tab? Click ')
+    +link('here', url)
 +email-footer

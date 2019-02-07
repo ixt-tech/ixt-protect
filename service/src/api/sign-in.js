@@ -10,7 +10,7 @@ module.exports.handler = async (event, context) => {
   try {
     const credentials = JSON.parse(event.body);
     // validate
-    const accessToken = await memberService.authenticate(credentials.email, credentials.password);
+    const accessToken = await memberService.signIn(credentials.email, credentials.password);
     return response.ok({accessToken: accessToken});
   } catch(error) {
     return response.error(error);
