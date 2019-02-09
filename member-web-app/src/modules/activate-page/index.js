@@ -21,6 +21,13 @@ class ActivatePage extends React.Component {
     }
   }
 
+  componentDidMount = async () => {
+    let query = new URLSearchParams(this.props.location.search);
+    if(query) {
+      this.setState({activationCode: query.get('activationCode')});
+    }
+  };
+
   handleChange = (e, {name, value}) => this.setState({[name]: value});
 
   handleSubmit = () => {
@@ -72,7 +79,7 @@ class ActivatePage extends React.Component {
                   error
                   content='Invalid activation code'
                 />
-                <Form.Input name='activationCode' label='Activation code' onChange={this.handleChange}
+                <Form.Input name='activationCode' defaultValue={this.state.activationCode} label='Activation code' onChange={this.handleChange}
                             placeholder='Enter your 6 digit code' required fluid/>
                 <Button color='orange' floated='right'>
                   Next

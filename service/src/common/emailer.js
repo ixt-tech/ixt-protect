@@ -28,14 +28,14 @@ class Emailer {
   }
 
   sendEmailVerification(member) {
+    const activationCode = member.activationCode;
     const mailOptions = {
       from: '"IXT Global" <noreply@ixt.global>',
       to: member.email,
       subject: 'Verify your email address',
       templatePath: path.resolve(__dirname, '../../','template','email'),
       vars: {
-        member: member,
-        baseUrl: process.env.BASE_URL + '/activations'
+        activationCode: activationCode
       },
       send: true
     };

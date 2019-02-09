@@ -3,12 +3,61 @@ include ../mixins.pug
 +header
 +style
 
-+email-main-wrap
-    +text('Hi')
-    +text('Welcome to IXT Protect! We&apos;re very pleased to have you as one of our members.')
-    +text('Your activation code is below - copy it and paste it into the activation page to activate your account.')
-    +focus-button(member.activationCode)
-    p
-    +text-standard('Closed your tab? Click ')
-    +link('here', url)
-+email-footer
+<body>
+    <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <table class="email-content" width="100%" cellpadding="0" cellspacing="0">
+                    <!-- Logo -->
+                    <tr>
+                        <td class="email-masthead">
+                            <a class="email-masthead_name">IXT Protect</a>
+                        </td>
+                    </tr>
+                    <!-- Email Body -->
+                    <tr>
+                        <td class="email-body" width="100%">
+                            <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0">
+                                <!-- Body content -->
+                                <tr>
+                                    <td class="content-cell">
+                                        <h1>Verify your email address</h1>
+                                        <p>Please enter the code in the activation page in your browser.</p>
+                                        <!-- Action -->
+                                        <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td align="center">
+                                                    <div class="highlight">
+                                                        <h1>!{activationCode}</h1>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p>If you closed your browser tab, click <a href="protect.ixt.global/activate?activationCode=">here</a></p>
+
+                                        <p>Thanks,<br>The IXT Team</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content-cell">
+                                        <p class="sub center">
+                                        |IXT ltd
+                                        <br>6.20 World Trade Center
+                                        <br>6 Bayside Road, Gibraltar, GX11 1AA
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
