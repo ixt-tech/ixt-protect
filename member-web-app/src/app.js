@@ -82,6 +82,7 @@ class App extends Component {
                 isAuthenticated={this.isSignedIn()}
                 redirect="/sign-in"
               />
+              <Route path="/password-reset" component={PasswordResetPage}/>
             </Switch>
           </Router>
         </Container>

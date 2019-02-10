@@ -75,14 +75,9 @@ class SignInPage extends React.Component {
                   error
                   content='Sign in failed'
                 />
-                <Form.Input icon='user' name='email' onChange={this.handleChange} iconPosition='left'
-                            placeholder='Email address' required fluid/>
-                <Form.Input icon='lock' name='password' onChange={this.handleChange} iconPosition='left'
-                            placeholder='Password' type='password' required fluid/>
-
-                <Button color='orange' floated='right'>
-                  Sign in
-                </Button>
+                <Form.Input icon='user' name='email' onChange={this.handleChange} iconPosition='left' placeholder='Email address' required fluid/>
+                <Form.Input icon='lock' name='password' onChange={this.handleChange} iconPosition='left' placeholder='Password' type='password' required fluid/>
+                <Button color='orange' floated='right'>Sign in</Button>
                 <br/>
                 <br/>
               </Form>

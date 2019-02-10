@@ -20,9 +20,9 @@ class MemberService {
     credentials.id = undefined;
     credentials.activationCode = Math.floor(Math.random() * (999999 - 100000 + 1) ) + 100000;
     credentials.salt = utils.generateSalt(16);
+    credentials.invitationCode = utils.generateSalt(8);
     credentials.password = utils.hashPassword(credentials.salt + credentials.password);
     credentials.status = 'NEW';
-
     await this.emailer.sendEmailVerification(credentials);
 
     this._setTraceInfo(credentials);
@@ -33,14 +33,16 @@ class MemberService {
       'createdAt, ' +
       'activationCode, ' +
       'invitationCode, ' +
+      'referralCode, ' +
       'status) ' +
-      'values(?, ?, ?, ?, ?, ?, ?)', [
+      'values(?, ?, ?, ?, ?, ?, ?, ?)', [
       credentials.email,
       credentials.password,
       credentials.salt,
       utils.toSqlTimestamp(credentials.createdAt),
       credentials.activationCode,
       credentials.invitationCode,
+      credentials.referralCode,
       credentials.status]
     );
 
@@ -120,7 +122,7 @@ class MemberService {
       'sessionStatus ' +
       'from member where id = ?';
     const result = await query(sql, [id]);
-    return result[0][0].sessionStatus == 'ACTIVE';
+    return result[0].sessionStatus == 'ACTIVE';
 
   }
 
@@ -184,8 +186,7 @@ class MemberService {
       'status = ?, ' +
       'createdAt = ?, ' +
       'updatedAt = ?, ' +
-      'lastSignedIn = ?, ' +
-      'invitationCode = ? ' +
+      'lastSignedIn = ? ' +
       'where id = ' + member.id;
     const params = [
       member.firstName,
@@ -201,8 +202,7 @@ class MemberService {
       member.status,
       utils.toSqlTimestamp(member.createdAt),
       utils.toSqlTimestamp(member.updatedAt),
-      utils.toSqlTimestamp(member.lastSignedIn),
-      member.invitationCode
+      utils.toSqlTimestamp(member.lastSignedIn)
     ]
     await query(sql, params);
     return member;
@@ -223,6 +223,7 @@ class MemberService {
     })();
 
     member.status = 'ACTIVE';
+    this.getMember('where invitationCode = ')
     return await this.updateMember(member);
 
   }
@@ -233,8 +234,8 @@ class MemberService {
 
   async getMemberByEmail(email) {
     const result = await this.getMember('where email = ?', [ email ]);
-    if(result && result[0].length > 0) {
-      return result[0][0];
+    if(result.length > 0) {
+      return result[0];
     } else {
       return undefined;
     }
@@ -244,8 +245,8 @@ class MemberService {
   async getMemberById(id) {
 
     const result = await this.getMember('where id = ?', [ id ]);
-    if(result && result[0].length > 0) {
-      return result[0][0];
+    if(result.length > 0) {
+      return result[0];
     } else {
       return undefined;
     }
@@ -255,8 +256,8 @@ class MemberService {
   async getMemberByActivationCode(activationCode) {
 
     const result = await this.getMember('where activationCode = ?', [activationCode]);
-    if(result && result[0].length > 0) {
-      return result[0][0];
+    if(result.length > 0) {
+      return result[0];
     } else {
       return undefined;
     }

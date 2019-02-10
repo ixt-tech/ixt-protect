@@ -26,7 +26,7 @@ class JoinPage extends React.Component {
   componentDidMount = async () => {
     let query = new URLSearchParams(this.props.location.search);
     if(query) {
-      this.setState({invitationCode: query.get('invitation')});
+      this.setState({referralCode: query.get('invitation')});
     }
   };
 
@@ -51,6 +51,7 @@ class JoinPage extends React.Component {
       const body = {
         email: this.state.email,
         password: this.state.password,
+        referralCode: this.state.referralCode
       };
       httpClient.post('/email-verifications', body).subscribe(
         response => {
@@ -77,14 +78,14 @@ class JoinPage extends React.Component {
   render() {
 
     return (
-      <div className='sign-in-form' style={{height: '600px'}}>
+      <div className='join-form' style={{height: '600px'}}>
         <style>{`
-      body > div,
-      body > div > div,
-      body > div > div > div.sign-in-form {
-        height: 100%;
-      }
-    `}</style>
+          body > div,
+          body > div > div,
+          body > div > div > div.join-form {
+            height: 100%;
+          }
+        `}</style>
         <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
           <Grid.Column style={{maxWidth: 450}}>
             <Header as='h3' textAlign='center'>
@@ -101,8 +102,8 @@ class JoinPage extends React.Component {
                 <Form.Input name='password' label='Password' onChange={this.handleChange} placeholder='Min 8 characters' type='password' required fluid/>
                 <Form.Input name='password2' label='Confirm password' onChange={this.handleChange} placeholder='Re-type password' type='password' required fluid/>
 
-                {this.state.invitationCode &&
-                <Form.Input name='invitationCode' defaultValue={this.state.invitationCode} label='Invitation code' placeholder='Code' readOnly/>
+                {this.state.referralCode &&
+                <Form.Input name='referralCode' defaultValue={this.state.referralCode} label='Invitation code' placeholder='Code' readOnly/>
                 }
                 <Form.Field>
                   <Checkbox

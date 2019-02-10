@@ -60,14 +60,14 @@ class ActivatePage extends React.Component {
   render() {
 
     return (
-      <div className='sign-in-form' style={{height: '600px'}}>
+      <div className='activate-form' style={{height: '600px'}}>
         <style>{`
-      body > div,
-      body > div > div,
-      body > div > div > div.sign-in-form {
-        height: 100%;
-      }
-    `}</style>
+          body > div,
+          body > div > div,
+          body > div > div > div.activate-form {
+            height: 100%;
+          }
+        `}</style>
         <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
           <Grid.Column style={{maxWidth: 450}}>
             <Header as='h3' textAlign='center'>

@@ -20,7 +20,12 @@ module.exports = query = async (sql, params) => {
   let connection = undefined;
   try {
     connection = await getConnection();
-    return await connection.query(sql, params);
+    const result = await connection.query(sql, params);
+    if(result && result.length > 0) {
+      return result[0];
+    } else {
+      return [];
+    }
   } catch(error) {
   	console.error(error);
   	connection.rollback();

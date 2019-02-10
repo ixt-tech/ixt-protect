@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Form, Grid, Label, Message, Segment} from 'semantic-ui-react';
+import {Button, Form, Grid, Label, Message, Segment, Header} from 'semantic-ui-react';
 import StripeCheckout from 'react-stripe-checkout';
 import './styles.css';
 import httpClient from '../../services/http-client';
@@ -71,9 +71,19 @@ class PersonalDetailsPage extends React.Component {
 
     return (
 
-      <div className='personal-detail-form'>
-        <Grid style={{height: '100%'}}>
-          <Grid.Column>
+      <div className='personal-details-form'>
+        <style>{`
+          body > div,
+          body > div > div,
+          body > div > div > div.personal-details-form {
+            height: 100%;
+          }
+        `}</style>
+        <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
+          <Grid.Column style={{maxWidth: 600}}>
+            <Header as='h3' textAlign='center'>
+              Sign up to IXT Protect
+            </Header>
             <Form size='large' error={this.state.formInvalid}>
               <Segment>
 
@@ -84,8 +94,8 @@ class PersonalDetailsPage extends React.Component {
                 />
 
                 <Form.Group>
-                  <Form.Input name='firstName' fluid label='First name' onChange={this.handleChange} placeholder='First name' required width={4}/>
-                  <Form.Input name='lastName' fluid label='Last name' onChange={this.handleChange} placeholder='Last name' required width={4}/>
+                  <Form.Input name='firstName' fluid label='First name' onChange={this.handleChange} placeholder='First name' required width={8}/>
+                  <Form.Input name='lastName' fluid label='Last name' onChange={this.handleChange} placeholder='Last name' required width={8}/>
                 </Form.Group>
 
                 <Form.Group>
@@ -209,20 +219,20 @@ class PersonalDetailsPage extends React.Component {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='addressLine1' fluid label='Address' onChange={this.handleChange}  placeholder='Address line 1' width={8} required/>
+                  <Form.Input name='addressLine1' fluid label='Address' onChange={this.handleChange}  placeholder='Address line 1' width={16} required/>
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='addressLine2' fluid placeholder='Address line 2' onChange={this.handleChange} width={8}/>
+                  <Form.Input name='addressLine2' fluid placeholder='Address line 2' onChange={this.handleChange} width={16}/>
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='town' fluid label='Town' onChange={this.handleChange} placeholder='Town' width={4} required/>
-                  <Form.Input name='postcode' fluid label='Postcode' onChange={this.handleChange} placeholder='Postcode' width={4} required/>
+                  <Form.Input name='town' fluid label='Town' onChange={this.handleChange} placeholder='Town' width={8} required/>
+                  <Form.Input name='postcode' fluid label='Postcode' onChange={this.handleChange} placeholder='Postcode' width={8} required/>
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='country' label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required>
+                  <Form.Input name='country' label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required width={4}>
                     <option value=''>Select country</option>
                     <option value='South Korea'>South Korea</option>
                     <option value='Japan'>Japan</option>
