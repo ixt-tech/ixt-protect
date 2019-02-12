@@ -31,11 +31,11 @@ class ThankYouPage extends React.Component {
             You are now a member of IXT Protect.
             <br/>
             <br/>
-            <Button icon labelPosition='left' color='orange'>
+            <Button icon basic labelPosition='left' color='orange'>
               <Icon name='download' />
               IXT Protect PDF
             </Button>
-            <Button icon labelPosition='left' color='orange'>
+            <Button icon basic labelPosition='left' color='orange'>
               <Icon name='user' />
               Your account
             </Button>

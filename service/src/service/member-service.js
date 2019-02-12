@@ -14,6 +14,7 @@ class MemberService {
   }
 
   async verifyEmail(credentials) {
+
     const existingMember = await this.getMemberByEmail(credentials.email);
     if(existingMember) throw { code: 409, message: 'This email is already signed up' };
 
@@ -159,18 +160,18 @@ class MemberService {
       'createdAt, ' +
       'updatedAt, ' +
       'lastSignedIn, ' +
+      'invitationCode, ' +
       'salt, ' +
       'password ' +
       'from member' + (whereClause ? ' ' + whereClause : '');
-    const result = await query(sql, params);
-    return result;
+    return await query(sql, params);
 
   }
 
   async updateMember(member) {
 
     const existingMember = await this.getMemberByEmail(member.email);
-    if(existingMember.id != member.id) throw { message: 'This email is already signed up' };
+    if(existingMember.id != member.id) throw { code: 409, message: 'This email is already signed up' };
     this._setTraceInfo(member);
     const sql = 'update member set ' +
       'firstName = ?, ' +
@@ -223,7 +224,22 @@ class MemberService {
     })();
 
     member.status = 'ACTIVE';
-    this.getMember('where invitationCode = ')
+    let result = await query('select referralCode from member where id = ' + member.id);
+    let referralCode = undefined;
+    if(result.length > 0) {
+      referralCode = result[0].referralCode;
+      result = await query('select id from member where invitationCode = ?', [referralCode]);
+      if(result.length > 0) {
+        const inviterId = result[0].id;
+        this.createReward({
+          referralCode: referralCode,
+          amount: 20,
+          receiver: inviterId,
+          type: 'INVITATION_REWARD',
+          description: 'Invitation reward for inviting member ' + member.firstName + ' ' + member.lastName,
+        });
+      }
+    }
     return await this.updateMember(member);
 
   }
@@ -233,6 +249,7 @@ class MemberService {
   }
 
   async getMemberByEmail(email) {
+
     const result = await this.getMember('where email = ?', [ email ]);
     if(result.length > 0) {
       return result[0];
@@ -261,6 +278,40 @@ class MemberService {
     } else {
       return undefined;
     }
+
+  }
+
+  async createReward(reward) {
+
+    reward.id = undefined;
+    //await this.emailer.sendRewardEmail(reward);
+
+    this._setTraceInfo(reward);
+    await query('insert into reward (' +
+      'referralCode, ' +
+      'amount, ' +
+      'receiver, ' +
+      'type, ' +
+      'description, ' +
+      'createdAt, ' +
+      'updatedAt) ' +
+      'values(?, ?, ?, ?, ?, ?, ?)', [
+      reward.referralCode,
+      reward.amount,
+      reward.receiver,
+      reward.type,
+      reward.description,
+      utils.toSqlTimestamp(reward.createdAt),
+      utils.toSqlTimestamp(reward.updatedAt),
+      ]
+    );
+
+  }
+
+  async getRewards(id) {
+
+    let sql = 'select * from reward where receiver = ?';
+    return await query(sql, [id]);
 
   }
 

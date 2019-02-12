@@ -18,10 +18,8 @@ class InvitationLink extends React.Component {
   }
 
   componentDidMount = async () => {
-    const member = this.props.member;
-    const invitationLink = 'protect.ixt.global/join?invitation=' + this.props.invitationCode;
-    const invitationReward = this.props.invitationReward;
-    this.setState({invitationLink, invitationReward});
+    const invitationLink = 'protect.ixt.global/join?invitation=';
+    this.setState({invitationLink});
   }
 
   copy() {
@@ -41,7 +39,7 @@ class InvitationLink extends React.Component {
         <Grid>
           <Grid.Column width={16}>
             <Segment>
-              <b>{this.state.invitationLink}</b>
+              <b>{this.state.invitationLink + this.props.invitationCode}</b>
               <Popup trigger={<Button className='invitation' size='small' icon='copy outline' onClick={this.copy}/>}
                      content='Copied to clipboard' on='click' hideOnScroll/>
             </Segment>

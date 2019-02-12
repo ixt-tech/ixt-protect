@@ -1,0 +1,14 @@
+.ui.button.invitation {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 0px;
+  padding-left: 10px;
+}
+
+.ui.grid {
+  margin-top: 5px;
+}
+
+div.invitation {
+  margin-left: 10px;
+}

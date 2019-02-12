@@ -8,7 +8,6 @@ const memberService = new MemberService();
 module.exports.handler = async (event, context) => {
 
   const session = await getSession(event);
-  console.log('SESSION', session);
   if(!session) return response.error({ code: 403, message: 'You must sign in first' });
 
   const member = await memberService.getMemberByEmail(session.email);

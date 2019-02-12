@@ -183,6 +183,19 @@ functions:
                           - Content-Type
                       allowCredentials: false
 
+    getRewards:
+        handler: src/api/get-rewards.handler
+        events:
+            - http:
+                  path: rewards
+                  method: get
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
+
 custom:
 
     serverless-offline:

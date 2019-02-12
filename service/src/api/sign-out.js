@@ -7,7 +7,7 @@ const memberService = new MemberService();
 
 module.exports.handler = async (event, context) => {
 
-  const session = getSession(event);
+  const session = await getSession(event);
   if(session) {
     await memberService.signOut(session.memberId);
   }

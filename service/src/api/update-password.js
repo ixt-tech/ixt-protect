@@ -7,7 +7,7 @@ const memberService = new MemberService();
 
 module.exports.handler = async (event, context) => {
 
-  const session = getSession(event);
+  const session = await getSession(event);
   if(!session) return response.error({ code: 403, message: 'You must sign in first' });
   try {
     const { oldPassword, newPassword } = JSON.parse(event.body);

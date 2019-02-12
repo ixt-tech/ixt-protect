@@ -110,7 +110,7 @@ class JoinPage extends React.Component {
                     label={<label>I accept the <a href='#'>Terms and Conditions</a> and that my data being stored inline with the guidelines set out in the <a href='#'>Privacy Policy</a></label>}/>
                 </Form.Field>
 
-                <Button color='orange' floated='right'>
+                <Button color='orange' basic floated='right'>
                   Next
                 </Button>
                 <br/>

@@ -81,7 +81,7 @@ class ActivatePage extends React.Component {
                 />
                 <Form.Input name='activationCode' defaultValue={this.state.activationCode} label='Activation code' onChange={this.handleChange}
                             placeholder='Enter your 6 digit code' required fluid/>
-                <Button color='orange' floated='right'>
+                <Button color='orange' basic floated='right'>
                   Next
                 </Button>
                 <br/>

@@ -486,7 +486,7 @@ class PersonalDetailsPage extends React.Component {
                   token={this.handleSubmit}
                   allowRememberMe={false}
                   label='Pay'>
-                  <Button color='orange' floated='right'>
+                  <Button color='orange' basic floated='right'>
                     Pay with card
                   </Button>
                 </StripeCheckout>

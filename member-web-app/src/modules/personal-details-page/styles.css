@@ -5,3 +5,7 @@
 .personal-details-form {
   height: 800px;
 }
+
+.ui.segment {
+  padding: 40px;
+}

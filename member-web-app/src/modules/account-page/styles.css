@@ -1,3 +1,12 @@
 .no-label {
   padding-top: 23px;
 }
+
+.event-header {
+  font-weight: bold;
+  border-bottom: #d3d3d3 1px solid;
+}
+
+.event-row {
+  border-bottom: #d3d3d3 1px solid;
+}

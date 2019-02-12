@@ -49,7 +49,7 @@ class PasswordResetPage extends React.Component {
             <Form size='large' onSubmit={this.handleSubmit}>
               <Segment>
                 <Form.Input name='email' icon='user' onChange={this.handleChange} iconPosition='left' placeholder='Email address' fluid/>
-                <Button color='orange' floated='right'>Send</Button>
+                <Button color='orange' basic floated='right'>Send</Button>
                 <br/>
                 <br/>
               </Segment>
