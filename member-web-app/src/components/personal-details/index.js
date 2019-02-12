@@ -21,34 +21,19 @@ class PersonalDetails extends React.Component {
 
   }
 
-  componentDidUpdate = () => {
+  componentWillReceiveProps = (nextProp) => {
 
-    const account = this.props.account;
+    const account = nextProp.account;
     if(account && account.dateOfBirth) {
       const dateOfBirth = moment(account.dateOfBirth);
-      const day = dateOfBirth.date();
-      if(day != this.state.day) {
-        this.setState({day});
-      }
-      const month = dateOfBirth.month();
-      if(month != this.state.month) {
-        this.setState({month});
-      }
-      const year = dateOfBirth.year();
-      if(year != this.state.year) {
-        this.setState({year});
-      }
+      this.setState({day: dateOfBirth.date(), month: dateOfBirth.month(), year: dateOfBirth.year()});
     }
 
   }
 
   handleDateChange = (e, value) => {
 
-    const account = this.props.account;
     this.setState({[e.target.name]: e.target.value});
-    let dateOfBirth = moment().year(this.state.year).month(this.state.month).date(this.state.day);
-    account['dateOfBirth'] = dateOfBirth.utc().valueOf();
-    this.setState({account});
 
   }
 

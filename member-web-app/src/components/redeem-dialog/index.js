@@ -3,12 +3,13 @@ import {
   Modal,
   Form,
   Button,
+  Icon,
 } from 'semantic-ui-react';
 import httpClient from '../../services/http-client';
 
 import './styles.css';
 
-class PasswordDialog extends React.Component {
+class RedeemDialog extends React.Component {
 
   constructor(props) {
     super(props);
@@ -46,14 +47,13 @@ class PasswordDialog extends React.Component {
 
   render() {
     return (
-      <Modal size='tiny'
-             open={this.state.modalOpen}
+      <Modal open={this.state.modalOpen}
              trigger={<Form.Button
-               className='password-button'
-               basic
-               color='orange'
-               onClick={this.handleOpen}
-               onClose={this.handleClose}>Change password</Form.Button>}>
+             basic
+             color='orange'
+             floated='right'
+             onClick={this.handleOpen}
+             onClose={this.handleClose}><Icon name='money bill alternate outline' /> Redeem</Form.Button>}>
 
         <Modal.Header>Change your password</Modal.Header>
         <Modal.Content>
@@ -78,4 +78,4 @@ class PasswordDialog extends React.Component {
 
 }
 
-export default PasswordDialog;
+export default RedeemDialog;

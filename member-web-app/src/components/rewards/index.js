@@ -4,6 +4,7 @@ import {formatTimestamp} from "../../utils/date";
 
 import './styles.css';
 import httpClient from "../../services/http-client";
+import RedeemDialog from '../../components/redeem-dialog';
 
 class Rewards extends React.Component {
 
@@ -20,7 +21,8 @@ class Rewards extends React.Component {
 
     httpClient.get('/rewards').subscribe(
       response => {
-        this.setState({ rewards: response });
+        const balance = 123.00;
+        this.setState({ rewards: response, balance: balance });
       }
     );
 
@@ -31,7 +33,18 @@ class Rewards extends React.Component {
     return (
       <Segment>
         <Header>Rewards</Header>
-        <Grid style={{overflow: 'auto', maxHeight: 400 }}>
+        <Divider />
+
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={7}>Balance: <b>{this.state.balance} IXT</b></Grid.Column>
+            <Grid.Column width={9}>
+              <RedeemDialog balance={this.state.balance}/>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+
+        <Grid style={{overflow: 'auto', maxHeight: 320 }}>
           <Grid.Row className='grid-header'>
             <Grid.Column width={9}>Description</Grid.Column>
             <Grid.Column width={3}>Amount</Grid.Column>

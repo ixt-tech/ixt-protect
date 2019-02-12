@@ -43,7 +43,7 @@ class PersonalDetailsPage extends React.Component {
 
     const errors = [];
     const account = this.state.account;
-    let dateOfBirth = moment().year(this.state.year).month(this.state.month).date(this.state.day);
+    let dateOfBirth = moment().year(this.state.dateOfBirthYear).month(this.state.dateOfBirthMonth).date(this.state.dateOfBirthDay);
     account.dateOfBirth = dateOfBirth.utc().valueOf();
 
     const body = {
@@ -67,7 +67,7 @@ class PersonalDetailsPage extends React.Component {
 
   render() {
 
-    const {day, month, year} = this.state;
+    const {dateOfBirthDay, dateOfBirthMonth, dateOfBirthYear, startDateDay, startDateMonth} = this.state;
 
     return (
 
@@ -99,7 +99,7 @@ class PersonalDetailsPage extends React.Component {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='day' label='Date of Birth' onChange={this.handleDateChange} placeholder='Day' control='select' required>
+                  <Form.Input name='dateOfBirthDay' label='Date of Birth' onChange={this.handleDateChange} placeholder='Day' control='select' required>
                     <option value=''>Day</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
@@ -133,7 +133,7 @@ class PersonalDetailsPage extends React.Component {
                     <option value='30'>30</option>
                     <option value='31'>31</option>
                   </Form.Input>
-                  <Form.Input name='month' placeholder='Month' onChange={this.handleDateChange} control='select' className='no-label'>
+                  <Form.Input name='dateOfBirthMonth' placeholder='Month' onChange={this.handleDateChange} control='select' className='no-label'>
                     <option value=''>Month</option>
                     <option value='0'>January</option>
                     <option value='1'>February</option>
@@ -148,7 +148,7 @@ class PersonalDetailsPage extends React.Component {
                     <option value='10'>November</option>
                     <option value='11'>December</option>
                   </Form.Input>
-                  <Form.Input name='year' placeholder='Year' onChange={this.handleDateChange} control='select' className='no-label'>
+                  <Form.Input name='dateOfBirthYear' placeholder='Year' onChange={this.handleDateChange} control='select' className='no-label'>
                     <option value=''>Year</option>
                     <option value='2003'>2003</option>
                     <option value='2002'>2002</option>
@@ -232,7 +232,7 @@ class PersonalDetailsPage extends React.Component {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Input name='country' label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required width={4}>
+                  <Form.Input name='country' label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required width={8}>
                     <option value=''>Select country</option>
                     <option value='South Korea'>South Korea</option>
                     <option value='Japan'>Japan</option>
@@ -473,6 +473,58 @@ class PersonalDetailsPage extends React.Component {
                     <option value='Yemen'>Yemen</option>
                     <option value='Zambia'>Zambia</option>
                     <option value='Zimbabwe'>Zimbabwe</option>
+                  </Form.Input>
+                </Form.Group>
+
+                <Form.Group>
+                  <Form.Input name='startDateDay' label='Start date' onChange={this.handleDateChange} placeholder='Day' control='select' required>
+                    <option value=''>Day</option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='11'>11</option>
+                    <option value='12'>12</option>
+                    <option value='13'>13</option>
+                    <option value='14'>14</option>
+                    <option value='15'>15</option>
+                    <option value='16'>16</option>
+                    <option value='17'>17</option>
+                    <option value='18'>18</option>
+                    <option value='19'>19</option>
+                    <option value='20'>20</option>
+                    <option value='21'>21</option>
+                    <option value='22'>22</option>
+                    <option value='23'>23</option>
+                    <option value='24'>24</option>
+                    <option value='25'>25</option>
+                    <option value='26'>26</option>
+                    <option value='27'>27</option>
+                    <option value='28'>28</option>
+                    <option value='29'>29</option>
+                    <option value='30'>30</option>
+                    <option value='31'>31</option>
+                  </Form.Input>
+                  <Form.Input name='startDateMonth' placeholder='Month' onChange={this.handleDateChange} control='select' className='no-label'>
+                    <option value=''>Month</option>
+                    <option value='0'>January</option>
+                    <option value='1'>February</option>
+                    <option value='2'>March</option>
+                    <option value='3'>April</option>
+                    <option value='4'>May</option>
+                    <option value='5'>June</option>
+                    <option value='6'>July</option>
+                    <option value='7'>August</option>
+                    <option value='8'>September</option>
+                    <option value='9'>October</option>
+                    <option value='10'>November</option>
+                    <option value='11'>December</option>
                   </Form.Input>
                 </Form.Group>
 
