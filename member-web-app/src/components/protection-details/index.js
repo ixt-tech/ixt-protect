@@ -1,10 +1,7 @@
 import React from 'react';
-import {Button, Popup, Grid, Header, Icon, Message, Segment, Checkbox, Loader, Divider} from 'semantic-ui-react';
-import PasswordDialog from '../../components/password-dialog';
+import {Button, Popup, Grid, Header, Icon, Segment, Divider} from 'semantic-ui-react';
 
 import './styles.css';
-import moment from "moment/moment";
-import httpClient from "../../services/http-client";
 
 class ProtectionDetails extends React.Component {
 

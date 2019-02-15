@@ -49,6 +49,7 @@ class AccountPage extends React.Component {
       response => {
         const account = response;
         this.setState({account: account, showSuccess: true});
+        localStorage.setItem('ACCOUNT', account);
         setTimeout(() => {
           this.setState({ showSuccess: false })
         }, 5000)

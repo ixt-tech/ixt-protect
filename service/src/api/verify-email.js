@@ -11,6 +11,7 @@ module.exports.handler = async (event, context) => {
     await memberService.verifyEmail(credentials);
     return response.ok();
   } catch(error) {
+    console.error('An unexpected error occurred', error);
     return response.error(error);
   }
 

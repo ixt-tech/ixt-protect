@@ -12,6 +12,13 @@ class ThankYouPage extends React.Component {
     super(props);
   }
 
+  toAccount = (e) => {
+
+    e.preventDefault();
+    this.props.history.push("/account");
+
+  }
+
   render() {
 
     return (
@@ -35,7 +42,7 @@ class ThankYouPage extends React.Component {
               <Icon name='download' />
               IXT Protect PDF
             </Button>
-            <Button icon basic labelPosition='left' color='orange'>
+            <Button icon basic labelPosition='left' color='orange' onClick={this.toAccount}>
               <Icon name='user' />
               Your account
             </Button>

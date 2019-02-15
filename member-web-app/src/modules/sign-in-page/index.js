@@ -9,6 +9,7 @@ import {
   Button,
 } from 'semantic-ui-react';
 import httpClient from '../../services/http-client';
+import { withRouter } from 'react-router-dom';
 
 class SignInPage extends React.Component {
 
@@ -31,9 +32,14 @@ class SignInPage extends React.Component {
     // validate
     httpClient.post('/sign-ins', body).subscribe(
       response => {
-        if (response.accessToken) {
+        if(response.accessToken) {
           localStorage.setItem('ACCESS_TOKEN', response.accessToken);
-          this.props.history.push("/account");
+
+          this.props.history.push({
+            pathname: response.redirect,
+            state: { account: response.account }
+          });
+
         } else {
           localStorage.setItem('ACCESS_TOKEN', undefined);
           this.setState({formInvalid: true});
@@ -91,4 +97,4 @@ class SignInPage extends React.Component {
   }
 }
 
-export default SignInPage;
+export default withRouter(SignInPage);

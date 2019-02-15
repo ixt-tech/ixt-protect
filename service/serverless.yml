@@ -196,6 +196,19 @@ functions:
                           - Content-Type
                       allowCredentials: false
 
+    createRedemption:
+        handler: src/api/create-redemption.handler
+        events:
+            - http:
+                  path: redemptions
+                  method: post
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
+
 custom:
 
     serverless-offline:

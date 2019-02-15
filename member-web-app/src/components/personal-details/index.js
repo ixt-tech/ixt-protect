@@ -1,11 +1,10 @@
 import React from 'react';
-import {Button, Form, Grid, Header, Icon, Message, Segment, Checkbox, Loader, Divider} from 'semantic-ui-react';
+import {Button, Form, Grid, Header, Icon, Message, Segment, Loader, Divider} from 'semantic-ui-react';
 import PasswordDialog from '../../components/password-dialog';
-import {formatDate, formatTimestamp} from "../../utils/date";
+import {formatDate} from "../../utils/date";
 
 import './styles.css';
 import moment from "moment/moment";
-import httpClient from "../../services/http-client";
 
 class PersonalDetails extends React.Component {
 

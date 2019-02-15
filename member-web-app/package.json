@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "sh -ac '. .env.${REACT_APP_ENV}; react-scripts build'",
     "deploy-uat": "aws s3 sync build/ s3://uat.protect.ixt.global",
     "deploy-live": "aws s3 sync build/ s3://protect.ixt.global",
     "test": "react-scripts test",

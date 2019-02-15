@@ -15,6 +15,8 @@ class MemberService {
 
   async verifyEmail(credentials) {
 
+    console.log('Verifying email begins...');
+
     const existingMember = await this.getMemberByEmail(credentials.email);
     if(existingMember) throw { code: 409, message: 'This email is already signed up' };
 
@@ -47,15 +49,22 @@ class MemberService {
       credentials.status]
     );
 
+    console.log('Verifying email completed.');
+
   }
 
   async activate(activationCode) {
+
+    console.log('Activation begins...');
 
     const inactiveMember = await this.getMemberByActivationCode(activationCode);
     if(!inactiveMember) throw { code: 401, message: 'Invalid activation code' };
     inactiveMember.status = 'VERIFIED';
     const activeMember = await this.updateMember(inactiveMember);
-    const accessToken = await this.createSession(activeMember);
+    const accessToken = await this._createSession(activeMember);
+
+    console.log('Activation completed.');
+
     return {
       accessToken: accessToken,
       account: activeMember
@@ -65,46 +74,29 @@ class MemberService {
 
   async signIn(email, password) {
 
+    console.log('Sign in [' + email + '] begins...');
+
     const member = await this.getMemberByEmail(email);
     if(member &&
        member.password === utils.hashPassword(member.salt + password) &&
-       member.status == 'ACTIVE') {
+      (member.status == 'NEW' || member.status == 'VERIFIED' || member.status == 'ACTIVE')) {
+      const session = await this._createSession(member);
 
-      const session = await this.createSession(member);
+      console.log('Sign in completed.');
+
       return session;
 
     } else {
+
+      console.error('An error occurred during sign in');
       throw { code: 403, message: 'Sign in failed' };
     }
 
   }
 
-  async createSession(member) {
-
-    let session = {
-      sessionId: uuid(),
-      ttl: moment().add(process.env.SESSION_DURATION_AMOUNT, process.env.SESSION_DURATION_UNIT).valueOf(),
-      memberId: member.id,
-      email: member.email
-    };
-
-    member.lastSignIn = moment();
-    member.sessionStatus = 'ACTIVE';
-    this._setTraceInfo(member);
-    const sql = 'update member set ' +
-      'sessionStatus = ?, ' +
-      'lastSignedIn = ? ' +
-      'where id = ' + member.id;
-    const params = [
-      member.sessionStatus,
-      utils.toSqlTimestamp(member.lastSignedIn)
-    ]
-    await query(sql, params);
-    return utils.createJwt(session);
-
-  }
-
   async signOut(id) {
+
+    console.log('Sign out begins...');
 
     this._setTraceInfo(member);
     const sql = 'update member set ' +
@@ -115,19 +107,32 @@ class MemberService {
     ]
     await query(sql, params);
 
+    console.log('Sign out completed.');
+
   }
 
   async isSessionActive(id) {
+
+    console.log('Is session active begins...');
 
     let sql = 'select ' +
       'sessionStatus ' +
       'from member where id = ?';
     const result = await query(sql, [id]);
-    return result[0].sessionStatus == 'ACTIVE';
+    let isSessionActive = false;
+    if(result.length > 0) {
+      isSessionActive = result[0].sessionStatus == 'ACTIVE';
+    }
+
+    console.log('Is session active completed.');
+
+    return isSessionActive;
 
   }
 
   async updatePassword(memberId, newPassword, oldPassword) {
+
+    console.log('Update password begins...');
 
     let member = await this.getMemberById(memberId);
 
@@ -140,9 +145,13 @@ class MemberService {
       throw { code: 403, message: 'Incorrect credentials.' };
     }
 
+    console.log('Update password completed.');
+
   }
 
   async getMember(whereClause, params) {
+
+    console.log('Get member begins...');
 
     let sql = 'select ' +
       'id, ' +
@@ -164,11 +173,18 @@ class MemberService {
       'salt, ' +
       'password ' +
       'from member' + (whereClause ? ' ' + whereClause : '');
-    return await query(sql, params);
+
+    const result = await query(sql, params);
+
+    console.log('Get member completed.');
+
+    return result;
 
   }
 
   async updateMember(member) {
+
+    console.log('Update member begins...');
 
     const existingMember = await this.getMemberByEmail(member.email);
     if(existingMember.id != member.id) throw { code: 409, message: 'This email is already signed up' };
@@ -206,11 +222,16 @@ class MemberService {
       utils.toSqlTimestamp(member.lastSignedIn)
     ]
     await query(sql, params);
+
+    console.log('Update member completed.');
+
     return member;
 
   }
 
   async checkout(member, token) {
+
+    console.log('Checkout begins...');
 
     const stripe = new Stripe("sk_test_Zg9e2fvHXeTEr32dvBfRbNBc");
     (async () => {
@@ -240,48 +261,69 @@ class MemberService {
         });
       }
     }
-    return await this.updateMember(member);
+    const updateResult = await this.updateMember(member);
+
+    console.log('Checkout completed.');
+    return updateResult;
 
   }
 
   deleteMember(id) {
-    return query('delete from member where ?', [ id ]);
+
+    console.log('Delete member begins...');
+    const result = query('delete from member where ?', [ id ]);
+    console.log('Delete member completed.');
+
   }
 
   async getMemberByEmail(email) {
 
+    console.log('Get member by email begins...');
+
     const result = await this.getMember('where email = ?', [ email ]);
+    let member = undefined;
     if(result.length > 0) {
-      return result[0];
-    } else {
-      return undefined;
+      member = result[0];
     }
+
+    console.log('Get member by email completed.');
+    return member;
 
   }
 
   async getMemberById(id) {
 
+    console.log('Get member by id begins...');
+
     const result = await this.getMember('where id = ?', [ id ]);
+    let member = undefined;
     if(result.length > 0) {
-      return result[0];
-    } else {
-      return undefined;
+      member = result[0];
     }
+
+    console.log('Get member by id completed.');
+    return member;
 
   }
 
   async getMemberByActivationCode(activationCode) {
 
+    console.log('Get member by activation code begins...');
+
     const result = await this.getMember('where activationCode = ?', [activationCode]);
+    let member = undefined;
     if(result.length > 0) {
-      return result[0];
-    } else {
-      return undefined;
+      member = result[0];
     }
+
+    console.log('Get member by activation code completed.')
+    return member;
 
   }
 
   async createReward(reward) {
+
+    console.log('Create reward begins...');
 
     reward.id = undefined;
     //await this.emailer.sendRewardEmail(reward);
@@ -306,12 +348,99 @@ class MemberService {
       ]
     );
 
+    console.log('Create reward completed.');
+
   }
 
   async getRewards(id) {
 
+    console.log('Get rewards begins...');
+
     let sql = 'select * from reward where receiver = ?';
-    return await query(sql, [id]);
+
+    const result = await query(sql, [id]);
+
+    console.log('Get rewards completed.');
+    return result;
+
+  }
+
+  async redeem(memberId, redemption) {
+
+    console.log('Redeem begins...');
+
+    // check if enough balance
+    let sql = 'select sum(amount) as total from reward where receiver = ?';
+    let result = await query(sql, [memberId]);
+    const rewardTotal = result[0].total;
+
+    sql = 'select sum(amount) as total from redemption where redeemer = ?';
+    result = await query(sql, [memberId]);
+    const redemptionTotal = result[0].total;
+
+    const balance = rewardTotal - redemptionTotal;
+
+    // find voucher
+    sql = 'select * from voucher where name = ? and country = ? and status = \'NEW\'';
+    result = await query(sql, [redemption.name, redemption.country]);
+    if(!result || result.length == 0) {
+      throw { code: 401, message: 'Invalid voucher name' };
+    }
+    const voucher = result[0];
+
+    if(balance < voucher.amountIxt) {
+      throw { code: 401, message: 'Insufficient reward balance' };
+    }
+
+    // create redemption
+    redemption.id = undefined;
+    //await this.emailer.sendRewardEmail(reward);
+
+    this._setTraceInfo(redemption);
+    await query('insert into redemption (' +
+      'name, ' +
+      'code, ' +
+      'amount, ' +
+      'redeemer, ' +
+      'createdAt, ' +
+      'updatedAt) ' +
+      'values(?, ?, ?, ?, ?, ?)', [
+        voucher.name,
+        voucher.code,
+        voucher.amountIxt,
+        memberId,
+        utils.toSqlTimestamp(redemption.createdAt),
+        utils.toSqlTimestamp(redemption.updatedAt),
+      ]
+    );
+
+    // send email
+    console.log('Redeem completed.');
+
+  }
+
+  async _createSession(member) {
+
+    let session = {
+      sessionId: uuid(),
+      ttl: moment().add(process.env.SESSION_DURATION_AMOUNT, process.env.SESSION_DURATION_UNIT).valueOf(),
+      memberId: member.id,
+      email: member.email
+    };
+
+    member.lastSignIn = moment();
+    member.sessionStatus = 'ACTIVE';
+    this._setTraceInfo(member);
+    const sql = 'update member set ' +
+      'sessionStatus = ?, ' +
+      'lastSignedIn = ? ' +
+      'where id = ' + member.id;
+    const params = [
+      member.sessionStatus,
+      utils.toSqlTimestamp(member.lastSignedIn)
+    ]
+    await query(sql, params);
+    return utils.createJwt(session);
 
   }
 

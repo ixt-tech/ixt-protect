@@ -53,9 +53,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header/>
-        <Container>
-          <Router>
+        <Router>
+          <div>
+          <Header />
+          <Container>
             <Switch>
               <Route path="/join" component={JoinPage}/>
               <Route path="/activate" component={ActivatePage}/>
@@ -64,7 +65,7 @@ class App extends Component {
                 path="/personal-details"
                 component={PersonalDetailsPage}
                 isAuthenticated={this.isSignedIn()}
-                redirect="/sign-up"
+                redirect="/sign-in"
               />
               <Route path="/sign-in" component={SignInPage}/>
               <Route path="/password-reset" component={PasswordResetPage}/>
@@ -82,11 +83,11 @@ class App extends Component {
                 isAuthenticated={this.isSignedIn()}
                 redirect="/sign-in"
               />
-              <Route path="/password-reset" component={PasswordResetPage}/>
             </Switch>
-          </Router>
-        </Container>
-        <Footer/>
+          </Container>
+          <Footer/>
+          </div>
+        </Router>
       </div>
     );
   }

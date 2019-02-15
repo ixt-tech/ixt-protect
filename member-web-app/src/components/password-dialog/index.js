@@ -3,6 +3,7 @@ import {
   Modal,
   Form,
   Button,
+  Message,
 } from 'semantic-ui-react';
 import httpClient from '../../services/http-client';
 
@@ -18,6 +19,8 @@ class PasswordDialog extends React.Component {
     this.state = {
       isValid: false,
       modalOpen: false,
+      formInvalid: false,
+      errors: [],
       oldPassword: '',
       newPassword: ''
     };
@@ -27,19 +30,31 @@ class PasswordDialog extends React.Component {
 
   handleSubmit = async (event) => {
 
+    const errors = [];
+
     const body = {
       oldPassword: this.state.oldPassword,
       newPassword: this.state.newPassword
     };
-    httpClient.put('/members/password', body);
-    this.setState({oldPassword: ''});
-    this.setState({newPassword: ''});
-    this.setState({modalOpen: false});
+    httpClient.put('/members/password', body).subscribe(
+      response => {
+        this.setState({oldPassword: ''});
+        this.setState({newPassword: ''});
+        this.setState({modalOpen: false});
+      },
+      error => {
+        errors.push(error.response.data);
+        this.setState({ formInvalid: true, errors: errors });
+      },
+    );
+
   }
 
   handleOpen = (e) => {
+
     e.preventDefault();
     this.setState({modalOpen: true})
+
   }
 
   handleClose = () => this.setState({modalOpen: false})
@@ -57,7 +72,19 @@ class PasswordDialog extends React.Component {
 
         <Modal.Header>Change your password</Modal.Header>
         <Modal.Content>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit} error={this.state.formInvalid}>
+            <Message
+              error
+              header='There was a problem'
+              list={this.state.errors}
+            />
+            {
+              this.props.showSuccess &&
+              <Message
+                positive
+                content='Account saved successfully'
+              />
+            }
             <Form.Input label='Old password' placeholder='Old password' name='oldPassword' type='password' onChange={this.handleChange}/>
             <Form.Input label='New password' placeholder='New password' name='newPassword' type='password' onChange={this.handleChange}/>
             <Form.Input label='Confirm password' placeholder='Re-type password' name='password2' type='password' onChange={this.handleChange}/>

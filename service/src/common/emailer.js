@@ -15,6 +15,7 @@ let transporter;
 class Emailer {
 
   constructor() {
+
     this.configuration = {
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
@@ -25,9 +26,12 @@ class Emailer {
       }
     };
     transporter = nodemailer.createTransport(this.configuration);
+
   }
 
-  sendEmailVerification(member) {
+  async sendEmailVerification(member) {
+
+    console.log('Sending email verification to ' + member.email)
     const activationCode = member.activationCode;
     const mailOptions = {
       from: '"IXT Global" <noreply@ixt.global>',
@@ -39,7 +43,9 @@ class Emailer {
       },
       send: true
     };
-    this.send(mailOptions, 'email-verification');
+    await this.send(mailOptions, 'email-verification');
+    console.log('Email sent');
+
   }
 
   send(mailOptions) {

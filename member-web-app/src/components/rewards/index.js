@@ -21,8 +21,12 @@ class Rewards extends React.Component {
 
     httpClient.get('/rewards').subscribe(
       response => {
-        const balance = 123.00;
-        this.setState({ rewards: response, balance: balance });
+        let balance = 0.00;
+        const rewards = response;
+        rewards.forEach(function (reward) {
+          balance = balance + Number(reward.amount);
+        });
+        this.setState({ rewards: rewards, balance: balance });
       }
     );
 

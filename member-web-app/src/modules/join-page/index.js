@@ -55,7 +55,6 @@ class JoinPage extends React.Component {
       };
       httpClient.post('/email-verifications', body).subscribe(
         response => {
-          this.props.history.push("/activate");
           this.setState({
             disableForm: false,
             email: '',
@@ -63,6 +62,7 @@ class JoinPage extends React.Component {
             formInvalid: false,
             errors: errors
           });
+          this.props.history.push("/activate");
         },
         error => {
           let errors = this.state.errors;

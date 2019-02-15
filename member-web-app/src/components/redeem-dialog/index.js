@@ -4,8 +4,11 @@ import {
   Form,
   Button,
   Icon,
+  Card,
+  Image,
 } from 'semantic-ui-react';
 import httpClient from '../../services/http-client';
+import amazonLogo from '../../images/amazon-logo.jpg';
 
 import './styles.css';
 
@@ -19,9 +22,15 @@ class RedeemDialog extends React.Component {
     this.state = {
       isValid: false,
       modalOpen: false,
-      oldPassword: '',
-      newPassword: ''
     };
+  }
+
+  handleCountryChange = (e, value) => {
+
+//    const account = this.props.account;
+//    account['country'] = e.target.value;
+//    this.setState({account});
+
   }
 
   handleChange = (e, {name, value}) => this.setState({[name]: value});
@@ -29,13 +38,12 @@ class RedeemDialog extends React.Component {
   handleSubmit = async (event) => {
 
     const body = {
-      oldPassword: this.state.oldPassword,
-      newPassword: this.state.newPassword
+      name: 'Amazon Voucher',
+      country: 'United Kingdom'
     };
-    httpClient.put('/members/password', body);
-    this.setState({oldPassword: ''});
-    this.setState({newPassword: ''});
+    httpClient.post('/redemptions', body);
     this.setState({modalOpen: false});
+
   }
 
   handleOpen = (e) => {
@@ -43,7 +51,10 @@ class RedeemDialog extends React.Component {
     this.setState({modalOpen: true})
   }
 
-  handleClose = () => this.setState({modalOpen: false})
+  handleClose = (e) => {
+    e.preventDefault();
+    this.setState({modalOpen: false})
+  }
 
   render() {
     return (
@@ -55,20 +66,45 @@ class RedeemDialog extends React.Component {
              onClick={this.handleOpen}
              onClose={this.handleClose}><Icon name='money bill alternate outline' /> Redeem</Form.Button>}>
 
-        <Modal.Header>Change your password</Modal.Header>
+        <Modal.Header>Redeem your reward IXT</Modal.Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit}>
-            <Form.Input label='Old password' placeholder='Old password' name='oldPassword' type='password' onChange={this.handleChange}/>
-            <Form.Input label='New password' placeholder='New password' name='newPassword' type='password' onChange={this.handleChange}/>
-            <Form.Input label='Confirm password' placeholder='Re-type password' name='password2' type='password' onChange={this.handleChange}/>
+            <Card>
+              <Image src={amazonLogo} />
+              <Card.Content>
+                <Card.Header>Amazon voucher $25</Card.Header>
+                <Card.Meta>
+                  <span><b>IXT Price: 200</b></span>
+                </Card.Meta>
+                <Card.Meta>
+                  <span>The voucher code will be sent to your account email address<br/></span>
+                </Card.Meta>
+                <Card.Description>
+                  <Form.Input name='country' value={this.state.country} label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required>
+                    <option value=''>Select country</option>
+                    <option value='South Korea'>South Korea</option>
+                  </Form.Input>
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className='ui two buttons'>
+                  <Button basic color='green'>
+                    Select
+                  </Button>
+                  <Button basic color='red'>
+                    Unselect
+                  </Button>
+                </div>
+              </Card.Content>
+            </Card>
           </Form>
         </Modal.Content>
         <Modal.Actions>
           <Button basic color='orange' onClick={this.handleClose}>
-            Cancel
+            Close
           </Button>
-          <Button onClick={this.handleSubmit} basic color='orange'>
-            OK
+          <Button basic color='orange' onClick={this.handleSubmit}>
+            Redeem
           </Button>
         </Modal.Actions>
 
