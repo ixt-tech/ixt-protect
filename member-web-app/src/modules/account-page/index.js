@@ -78,7 +78,7 @@ class AccountPage extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={8}>
-              <Rewards />
+              <Rewards account={this.state.account}/>
             </Grid.Column>
             <Grid.Column width={8}>
               <Faq />

@@ -254,7 +254,7 @@ class MemberService {
         const inviterId = result[0].id;
         this.createReward({
           referralCode: referralCode,
-          amount: 20,
+          amount: 200,
           receiver: inviterId,
           type: 'INVITATION_REWARD',
           description: 'Invitation reward for inviting member ' + member.firstName + ' ' + member.lastName,
@@ -365,11 +365,10 @@ class MemberService {
 
   }
 
-  async redeem(memberId, redemption) {
+  async getRewardBalance(memberId) {
 
-    console.log('Redeem begins...');
+    console.log('Get reward balance begins...');
 
-    // check if enough balance
     let sql = 'select sum(amount) as total from reward where receiver = ?';
     let result = await query(sql, [memberId]);
     const rewardTotal = result[0].total;
@@ -380,9 +379,21 @@ class MemberService {
 
     const balance = rewardTotal - redemptionTotal;
 
+    console.log('Get reward balance completed [' + balance + ']');
+    return balance;
+
+  }
+
+  async redeem(memberId, redemption) {
+
+    console.log('Redeem begins...');
+
+    // check if enough balance
+    const balance = await this.getRewardBalance(memberId);
+
     // find voucher
-    sql = 'select * from voucher where name = ? and country = ? and status = \'NEW\'';
-    result = await query(sql, [redemption.name, redemption.country]);
+    let sql = 'select * from voucher where name = ? and country = ? and status = \'NEW\'';
+    let result = await query(sql, [redemption.name, redemption.country]);
     if(!result || result.length == 0) {
       throw { code: 401, message: 'Invalid voucher name' };
     }

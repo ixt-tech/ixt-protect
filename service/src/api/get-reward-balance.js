@@ -10,11 +10,7 @@ module.exports.handler = async (event, context) => {
   const session = await getSession(event);
   if(!session) return response.error({ code: 403, message: 'You must sign in first' });
 
-  const redemptions = JSON.parse(event.body);
-  for(let redemption of redemptions) {
-    console.log(redemption);
-    await memberService.redeem(session.memberId, redemption);
-  }
-  return response.ok('');
+  const rewardBalance = await memberService.getRewardBalance(session.memberId);
+  return response.ok({rewardBalance: rewardBalance});
 
 };

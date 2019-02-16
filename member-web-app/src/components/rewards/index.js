@@ -21,12 +21,14 @@ class Rewards extends React.Component {
 
     httpClient.get('/rewards').subscribe(
       response => {
-        let balance = 0.00;
-        const rewards = response;
-        rewards.forEach(function (reward) {
-          balance = balance + Number(reward.amount);
-        });
-        this.setState({ rewards: rewards, balance: balance });
+        this.setState({ rewards: response });
+      }
+    );
+
+    httpClient.get('/rewards/balance').subscribe(
+      response => {
+        const rewardBalance = response.rewardBalance;
+        this.setState({rewardBalance: rewardBalance});
       }
     );
 
@@ -41,9 +43,9 @@ class Rewards extends React.Component {
 
         <Grid>
           <Grid.Row>
-            <Grid.Column width={7}>Balance: <b>{this.state.balance} IXT</b></Grid.Column>
+            <Grid.Column width={7}>Balance: <b>{this.state.rewardBalance} IXT</b></Grid.Column>
             <Grid.Column width={9}>
-              <RedeemDialog balance={this.state.balance}/>
+              <RedeemDialog balance={this.state.rewardBalance}/>
             </Grid.Column>
           </Grid.Row>
         </Grid>
