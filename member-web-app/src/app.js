@@ -61,19 +61,13 @@ class App extends Component {
               <PrivateRoute
                 exact
                 path="/"
-                component={AccountPage}
+                component={ThankYouPage}
                 isAuthenticated={this.isSignedIn()}
                 redirect="/sign-in"
               />
               <Route path="/join" component={JoinPage}/>
               <Route path="/activate" component={ActivatePage}/>
-              <PrivateRoute
-                exact
-                path="/personal-details"
-                component={PersonalDetailsPage}
-                isAuthenticated={this.isSignedIn()}
-                redirect="/sign-in"
-              />
+              <Route path="/personal-details" component={PersonalDetailsPage}/>
               <Route path="/sign-in" component={SignInPage}/>
               <Route path="/password-reset" component={PasswordResetPage}/>
               <PrivateRoute

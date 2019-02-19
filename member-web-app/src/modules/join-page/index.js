@@ -32,6 +32,10 @@ class JoinPage extends React.Component {
 
   handleChange = (e, {name, value}) => this.setState({[name]: value});
 
+  handleCheckboxChange = (e, value) => {
+    this.setState({accepted: value.checked});
+  }
+
   handleSubmit = () => {
 
     const errors = [];
@@ -44,6 +48,10 @@ class JoinPage extends React.Component {
     }
     if(this.state.password != this.state.password2) {
       errors.push('Passwords don\'t match');
+      this.setState({formInvalid: true, errors: errors});
+    }
+    if(!this.state.accepted) {
+      errors.push('You must accept our terms and conditions');
       this.setState({formInvalid: true, errors: errors});
     }
 
@@ -103,7 +111,7 @@ class JoinPage extends React.Component {
                 <Form.Input name='password2' label='Confirm password' onChange={this.handleChange} placeholder='Re-type password' type='password' required fluid/>
                 <Form.Input name='referralCode' defaultValue={this.state.referralCode} label='Invitation code' placeholder='Code' fluid />
                 <Form.Field>
-                  <Checkbox on
+                  <Checkbox onChange={this.handleCheckboxChange}
                     label={<label>I accept the <a href='#'>Terms and Conditions</a> and that my data being stored inline with the guidelines set out in the <a href='#'>Privacy Policy</a></label>}/>
                 </Form.Field>
 

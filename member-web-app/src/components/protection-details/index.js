@@ -22,7 +22,7 @@ class ProtectionDetails extends React.Component {
   copy() {
     let _tmp = document.createElement('input');
     document.body.appendChild(_tmp);
-    _tmp.value = this.state.invitationLink;
+    _tmp.value = this.state.invitationLink + this.props.account.invitationCode;
     _tmp.select();
     document.execCommand('copy');
     document.body.removeChild(_tmp);

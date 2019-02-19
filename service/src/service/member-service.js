@@ -252,7 +252,7 @@ class MemberService {
       result = await this.getMember('where invitationCode = ?', [referralCode]);
       if(result.length > 0) {
         const inviter = result[0];
-        this.createReward(
+        await this.createReward(
           inviter,
           {
             referralCode: referralCode,

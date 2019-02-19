@@ -481,7 +481,7 @@ class PersonalDetailsPage extends React.Component {
                 </Form.Group>
 
                 <StripeCheckout
-                  amount={3900.00}
+                  amount={5900.00}
                   description='12 months membership'
                   locale='auto'
                   name='IXT Protect'
