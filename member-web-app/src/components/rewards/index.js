@@ -41,6 +41,7 @@ class Rewards extends React.Component {
         <Header>Rewards</Header>
         <Divider />
 
+        {this.state.rewards.length > 0 &&
         <Grid>
           <Grid.Row>
             <Grid.Column width={7}>Balance: <b>{this.state.rewardBalance} IXT</b></Grid.Column>
@@ -49,13 +50,16 @@ class Rewards extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        }
 
-        <Grid style={{overflow: 'auto', maxHeight: 320 }}>
+        <Grid style={{overflow: 'auto', maxHeight: 327, minHeight: 327  }} verticalAlign='top'>
+          {this.state.rewards.length > 0 &&
           <Grid.Row className='grid-header'>
             <Grid.Column width={9}>Description</Grid.Column>
             <Grid.Column width={3}>Amount</Grid.Column>
             <Grid.Column width={4}>Time</Grid.Column>
           </Grid.Row>
+          }
           { this.state.rewards.length == 0 &&
           <Grid.Row>
             <Grid.Column>
@@ -63,6 +67,7 @@ class Rewards extends React.Component {
             </Grid.Column>
           </Grid.Row>
           }
+          <Grid>
           { this.state.rewards.map((row) => (
               <Grid.Row className='grid-row' children={this.state.rewards} key={row.id}>
                 <Grid.Column width={9}>{ row.description }</Grid.Column>
@@ -70,6 +75,7 @@ class Rewards extends React.Component {
                 <Grid.Column width={4}>{ formatTimestamp(row.createdAt) }</Grid.Column>
               </Grid.Row>
           ))}
+          </Grid>
         </Grid>
       </Segment>
     )

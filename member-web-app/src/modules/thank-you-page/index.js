@@ -4,6 +4,7 @@ import {
   Grid,
   Button,
   Icon,
+  Form,
 } from 'semantic-ui-react';
 
 class ThankYouPage extends React.Component {
@@ -38,7 +39,7 @@ class ThankYouPage extends React.Component {
             You are now a member of IXT Protect.
             <br/>
             <br/>
-            <Button icon basic labelPosition='left' color='orange'>
+            <Button icon basic labelPosition='left' color='orange' href='ixt_protect_overview.pdf' download='ixt_protect_overview.pdf'>
               <Icon name='download' />
               IXT Protect PDF
             </Button>

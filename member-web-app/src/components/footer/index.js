@@ -14,9 +14,8 @@ const Footer = props => {
       </Menu.Item>
       <Menu.Menu>
         <Menu.Item>Copyright 2019 &copy; IXT Protect</Menu.Item>
-        <Menu.Item as='a' href='#'>Privacy Policy</Menu.Item>
-        <Menu.Item as='a' href='#'>Cookie Policy</Menu.Item>
-        <Menu.Item as='a' href='#'>Terms and Conditions</Menu.Item>
+        <Menu.Item as='a' href='https://ixt.global/privacy-policy/'>Privacy Policy</Menu.Item>
+        <Menu.Item as='a' href='https://ixt.global/terms-and-condition/'>Terms and Conditions</Menu.Item>
       </Menu.Menu>
       {process.env.NODE_ENV == 'development' &&
       <Menu.Menu position='right'>

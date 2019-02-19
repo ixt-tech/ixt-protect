@@ -8,12 +8,6 @@ include ../mixins.pug
         <tr>
             <td align="center">
                 <table class="email-content" width="100%" cellpadding="0" cellspacing="0">
-                    <!-- Logo -->
-                    <tr>
-                        <td class="email-masthead">
-                            <a class="email-masthead_name">IXT Protect</a>
-                        </td>
-                    </tr>
                     <!-- Email Body -->
                     <tr>
                         <td class="email-body" width="100%">
@@ -21,20 +15,18 @@ include ../mixins.pug
                                 <!-- Body content -->
                                 <tr>
                                     <td class="content-cell">
-                                        <h1>Verify your email address</h1>
-                                        <p>Please enter the code in the activation page in your browser.</p>
-                                        <!-- Action -->
-                                        <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td align="center">
-                                                    <div class="highlight">
-                                                        !{activationCode}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <p>If you closed your browser tab, click <a href="protect.ixt.global/activate?activationCode=">here</a></p>
-
+                                        <p>
+                                            |Hi,
+                                        </p>
+                                        <p>
+                                            |To complete your IXT Protect account we need you to confirm your email address so we know that you are reachable at this address. Simply copy the 6 digit code below into the Activation page.
+                                        </p>
+                                        <p>
+                                            <h2 class='center'>!{activationCode}</h2>
+                                        </p>
+                                        <p>
+                                            |If you closed your browser use this link: <a href="https://protect.ixt.global/activate?activationCode=!{activationCode}">https://protect.ixt.global/activate?activationCode=!{activationCode}</a>
+                                        </p>
                                         <p>Thanks,<br>The IXT Team</p>
                                     </td>
                                 </tr>
@@ -47,7 +39,7 @@ include ../mixins.pug
                                 <tr>
                                     <td class="content-cell">
                                         <p class="sub center">
-                                        |IXT ltd
+                                        |IXT Ltd.
                                         <br>6.20 World Trade Center
                                         <br>6 Bayside Road, Gibraltar, GX11 1AA
                                         </p>

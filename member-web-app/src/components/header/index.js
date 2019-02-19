@@ -34,13 +34,19 @@ class Header extends React.Component {
 
   }
 
+  signIn = () => {
+
+    this.props.history.push('/sign-in');
+
+  }
+
   render() {
 
     const signedIn = this.state.signedIn;
     return (
       <Menu borderless className='header'>
 
-        <Menu.Item as='a' href='http://ixt.global'>
+        <Menu.Item as='a' href='https://ixt.global'>
           <img src={logo} className='logo'/>
         </Menu.Item>
         <Menu.Menu>
@@ -48,10 +54,13 @@ class Header extends React.Component {
           {signedIn &&
           <Menu.Item as='a' href='/account'>Account</Menu.Item>
           }
-          <Menu.Item as='a' href='http://ixt.global'>Blog</Menu.Item>
-          <Menu.Item as='a' href='https://www.ixt.global/contact-us/'>Contact us</Menu.Item>
+          <Menu.Item as='a' href='https://ixt.global'>Blog</Menu.Item>
+          <Menu.Item as='a' href='https://www.ixt.global/contact-us/'>Contact Us</Menu.Item>
           {signedIn &&
           <Menu.Item as='a' onClick={this.signOut}>Sign out</Menu.Item>
+          }
+          {!signedIn &&
+          <Menu.Item as='a' onClick={this.signOut}>Sign In</Menu.Item>
           }
         </Menu.Menu>
       </Menu>

@@ -27,9 +27,12 @@ describe('Emailer', function() {
       from: '"dev team" <noreply@ixt.global>',
       to: 'ingemar.svensson@ixt.global',
       subject: 'Test email with template from the Dev team',
-      templatePath: path.resolve(__dirname, '../../../test','template','email')
+      templatePath: path.resolve(__dirname, '../../../','template','email'),
+      locals: {
+        activationCode: '123ABC'
+      }
     };
-    emailer.send(mailOptions, 'test-template');
+    emailer.send(mailOptions, 'email-verification');
     done();
 
   });

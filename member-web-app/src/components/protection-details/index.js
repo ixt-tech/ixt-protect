@@ -69,7 +69,7 @@ class ProtectionDetails extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={16}>
-              <Button icon color='orange' basic floated='right' onClick={this.toggleEditMode}>
+              <Button icon color='orange' basic floated='right' href='ixt_protect_overview.pdf' download='ixt_protect_overview.pdf'>
                 <Icon name='file pdf outline' /> Download
               </Button>
             </Grid.Column>

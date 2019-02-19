@@ -9,7 +9,7 @@ import {
   Button,
 } from 'semantic-ui-react';
 import httpClient from '../../services/http-client';
-import { withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class SignInPage extends React.Component {
 
@@ -19,7 +19,9 @@ class SignInPage extends React.Component {
       email: '',
       password: '',
       formInvalid: false,
+      redirect: false
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange = (e, {name, value}) => this.setState({[name]: value});
@@ -34,12 +36,7 @@ class SignInPage extends React.Component {
       response => {
         if(response.accessToken) {
           localStorage.setItem('ACCESS_TOKEN', response.accessToken);
-
-          this.props.history.push({
-            pathname: response.redirect,
-            state: { account: response.account }
-          });
-
+          this.setState({redirect: true, destination: response.redirect, account: response});
         } else {
           localStorage.setItem('ACCESS_TOKEN', undefined);
           this.setState({formInvalid: true});
@@ -60,6 +57,10 @@ class SignInPage extends React.Component {
   }
 
   render() {
+
+    if (this.state.redirect === true) {
+      return <Redirect to={this.state.destination} account={this.state.account}/>
+    }
 
     return (
       <div className='sign-in-form' style={{height: '600px'}}>
@@ -89,7 +90,10 @@ class SignInPage extends React.Component {
               </Form>
             </Segment>
             <br/>
-            New to us? <a href='/join'>Sign Up</a>. Forgot your password? <a href='/password-reminder'>Reset it</a>.
+            New to us? <a href='/join'>Sign up</a>. Forgot your password? <a href='/password-reset'>Reset it</a>.
+            <br/>
+            <br/>
+            <b>Looking for the staking account? <a href='https://staking.ixt.global/account'>It's here</a>.</b>
           </Grid.Column>
         </Grid>
       </div>
@@ -97,4 +101,4 @@ class SignInPage extends React.Component {
   }
 }
 
-export default withRouter(SignInPage);
+export default SignInPage;

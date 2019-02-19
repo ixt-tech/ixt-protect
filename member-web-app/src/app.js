@@ -55,9 +55,16 @@ class App extends Component {
       <div className="App">
         <Router>
           <div>
-          <Header />
+          <Header history={this.props.history}/>
           <Container>
             <Switch>
+              <PrivateRoute
+                exact
+                path="/"
+                component={AccountPage}
+                isAuthenticated={this.isSignedIn()}
+                redirect="/sign-in"
+              />
               <Route path="/join" component={JoinPage}/>
               <Route path="/activate" component={ActivatePage}/>
               <PrivateRoute

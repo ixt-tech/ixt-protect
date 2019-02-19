@@ -236,7 +236,7 @@ class MemberService {
     const stripe = new Stripe("sk_test_Zg9e2fvHXeTEr32dvBfRbNBc");
     (async () => {
       const charge = await stripe.charges.create({
-        amount: 3900.00,
+        amount: 5900.00,
         currency: 'usd',
         description: 'IXT Protect',
         source: token,
@@ -249,19 +249,23 @@ class MemberService {
     let referralCode = undefined;
     if(result.length > 0) {
       referralCode = result[0].referralCode;
-      result = await query('select id from member where invitationCode = ?', [referralCode]);
+      result = await this.getMember('where invitationCode = ?', [referralCode]);
       if(result.length > 0) {
-        const inviterId = result[0].id;
-        this.createReward({
-          referralCode: referralCode,
-          amount: 200,
-          receiver: inviterId,
-          type: 'INVITATION_REWARD',
-          description: 'Invitation reward for inviting member ' + member.firstName + ' ' + member.lastName,
-        });
+        const inviter = result[0];
+        this.createReward(
+          inviter,
+          {
+            referralCode: referralCode,
+            amount: 200,
+            receiver: inviter.id,
+            type: 'INVITATION_REWARD',
+            description: 'Invitation reward for inviting member ' + member.firstName + ' ' + member.lastName,
+          }
+        );
       }
     }
     const updateResult = await this.updateMember(member);
+    this.emailer.sendMembershipStarted(member);
 
     console.log('Checkout completed.');
     return updateResult;
@@ -321,12 +325,12 @@ class MemberService {
 
   }
 
-  async createReward(reward) {
+  async createReward(member, reward) {
 
     console.log('Create reward begins...');
 
     reward.id = undefined;
-    //await this.emailer.sendRewardEmail(reward);
+    await this.emailer.sendNewReward(member, reward);
 
     this._setTraceInfo(reward);
     await query('insert into reward (' +
@@ -405,7 +409,6 @@ class MemberService {
 
     // create redemption
     redemption.id = undefined;
-    //await this.emailer.sendRewardEmail(reward);
 
     this._setTraceInfo(redemption);
     await query('insert into redemption (' +
@@ -426,6 +429,9 @@ class MemberService {
     );
 
     // send email
+    const member = await this.getMemberById(memberId);
+    this.emailer.sendNewRedemption(member, redemption);
+
     console.log('Redeem completed.');
 
   }
