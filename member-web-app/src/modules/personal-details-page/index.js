@@ -13,6 +13,7 @@ class PersonalDetailsPage extends React.Component {
     this.state = {
       account: {},
       formInvalid: false,
+      formIncomplete: true,
       showSuccess: false,
       errors: []
     }
@@ -23,15 +24,19 @@ class PersonalDetailsPage extends React.Component {
     this.setState({account: this.props.location.state.account});
   }
 
-  handleDateChange = (e, value) => {
-    this.setState({[e.target.name]: e.target.value});
+  handleDateChange = async (e, value) => {
+
+    await this.setState({[e.target.name]: e.target.value});
+    this.setFormCompleteness();
+
   }
 
-  handleCountryChange = (e, value) => {
+  handleCountryChange = async (e, value) => {
 
     const account = this.state.account;
     account['country'] = e.target.value;
-    this.setState({account});
+    await this.setState({account});
+    this.setFormCompleteness();
 
   }
 
@@ -40,6 +45,27 @@ class PersonalDetailsPage extends React.Component {
     const account = this.state.account;
     account[name] = value;
     this.setState({account});
+    this.setFormCompleteness();
+
+  }
+
+  setFormCompleteness = () => {
+
+    const account = this.state.account;
+    if(account.firstName && account.firstName !== ''
+      && account.lastName && account.lastName !== ''
+      && this.state.dateOfBirthYear && this.state.dateOfBirthYear !== ''
+      && this.state.dateOfBirthMonth && this.state.dateOfBirthMonth !== ''
+      && this.state.dateOfBirthDay && this.state.dateOfBirthDay !== ''
+      && account.addressLine1 && account.addressLine1 !== ''
+      && account.town && account.town !== ''
+      && account.postcode && account.postcode !== ''
+      && account.country && account.country !== ''
+    ) {
+      this.setState({formIncomplete: false});
+    } else {
+      this.setState({formIncomplete: true});
+    }
 
   }
 
@@ -71,7 +97,7 @@ class PersonalDetailsPage extends React.Component {
 
   render() {
 
-    const {dateOfBirthDay, dateOfBirthMonth, dateOfBirthYear, startDateDay, startDateMonth} = this.state;
+    const {dateOfBirthDay, dateOfBirthMonth, dateOfBirthYear} = this.state;
 
     return (
 
@@ -490,7 +516,7 @@ class PersonalDetailsPage extends React.Component {
                   token={this.handleSubmit}
                   allowRememberMe={false}
                   label='Pay'>
-                  <Button color='orange' basic floated='right'>
+                  <Button color='orange' basic floated='right' disabled={this.state.formIncomplete}>
                     Pay with card
                   </Button>
                 </StripeCheckout>

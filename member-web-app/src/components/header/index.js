@@ -6,7 +6,7 @@ import {
 import './styles.css';
 import logo from '../../images/logo.png'
 import httpClient from "../../services/http-client";
-import { withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class Header extends React.Component {
 
@@ -14,7 +14,8 @@ class Header extends React.Component {
 
     super(props);
     this.state = {
-      signedIn: localStorage.getItem('ACCESS_TOKEN')
+      signedIn: localStorage.getItem('ACCESS_TOKEN'),
+      redirect: false
     };
 
   }
@@ -25,10 +26,10 @@ class Header extends React.Component {
     this.setState({signedIn: false});
     httpClient.delete('/sessions').subscribe(
       response => {
-        this.props.history.push('/sign-in');
+        this.setState({redirect: true});
       },
       error => {
-        this.props.history.push('/sign-in');
+        this.setState({redirect: true});
       },
     );
 
@@ -36,11 +37,15 @@ class Header extends React.Component {
 
   signIn = () => {
 
-    this.props.history.push('/sign-in');
+    this.setState({redirect: true});
 
   }
 
   render() {
+
+    if (this.state.redirect === true) {
+      return <Redirect to='/sign-in' />
+    }
 
     const signedIn = this.state.signedIn;
     return (
@@ -71,4 +76,4 @@ class Header extends React.Component {
 
 }
 
-export default withRouter(Header);
+export default Header;

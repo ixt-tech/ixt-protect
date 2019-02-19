@@ -12,7 +12,7 @@ class Rewards extends React.Component {
 
     super(props);
     this.state = {
-      rewards: [],
+      rows: [],
     }
 
   }
@@ -21,7 +21,9 @@ class Rewards extends React.Component {
 
     httpClient.get('/rewards').subscribe(
       response => {
-        this.setState({ rewards: response });
+        let rows = this.state.rows;
+        rows = rows.concat(response)
+        this.setState({ rows: rows });
       }
     );
 
@@ -37,11 +39,11 @@ class Rewards extends React.Component {
   render() {
 
     return (
-      <Segment>
+      <Segment style={{minHeight: 457}}>
         <Header>Rewards</Header>
         <Divider />
 
-        {this.state.rewards.length > 0 &&
+        {this.state.rows.length > 0 &&
         <Grid>
           <Grid.Row>
             <Grid.Column width={7}>Balance: <b>{this.state.rewardBalance} IXT</b></Grid.Column>
@@ -51,31 +53,28 @@ class Rewards extends React.Component {
           </Grid.Row>
         </Grid>
         }
-
-        <Grid style={{overflow: 'auto', maxHeight: 327, minHeight: 327  }} verticalAlign='top'>
-          {this.state.rewards.length > 0 &&
+        <Grid style={{overflow: 'auto', maxHeight: 327}}>
+          {this.state.rows.length > 0 &&
           <Grid.Row className='grid-header'>
             <Grid.Column width={9}>Description</Grid.Column>
             <Grid.Column width={3}>Amount</Grid.Column>
-            <Grid.Column width={4}>Time</Grid.Column>
+            <Grid.Column width={3}>Time</Grid.Column>
           </Grid.Row>
           }
-          { this.state.rewards.length == 0 &&
+          { this.state.rows.length == 0 &&
           <Grid.Row>
             <Grid.Column>
               No rewards yet
             </Grid.Column>
           </Grid.Row>
           }
-          <Grid>
-          { this.state.rewards.map((row) => (
-              <Grid.Row className='grid-row' children={this.state.rewards} key={row.id}>
+          { this.state.rows.map((row) => (
+              <Grid.Row className='grid-row' children={this.state.rows} key={row.id}>
                 <Grid.Column width={9}>{ row.description }</Grid.Column>
                 <Grid.Column width={3}>{ row.amount }</Grid.Column>
-                <Grid.Column width={4}>{ formatTimestamp(row.createdAt) }</Grid.Column>
+                <Grid.Column width={3}>{ formatTimestamp(row.createdAt) }</Grid.Column>
               </Grid.Row>
           ))}
-          </Grid>
         </Grid>
       </Segment>
     )

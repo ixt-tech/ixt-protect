@@ -140,6 +140,8 @@ class RedeemDialog extends React.Component {
                         <Form.Input name='country' value={this.state.country} label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required>
                           <option value=''>Select country</option>
                           <option value='South Korea'>South Korea</option>
+                          <option value='Japan'>Japan</option>
+                          <option value='United Kingdom'>United Kingdom</option>
                         </Form.Input>
                       </Card.Description>
                     </Card.Content>
