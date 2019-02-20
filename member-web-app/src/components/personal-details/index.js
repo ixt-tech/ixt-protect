@@ -21,12 +21,12 @@ class PersonalDetails extends React.Component {
   }
 
   componentWillReceiveProps = (nextProp) => {
-
     const account = nextProp.account;
     if(account && account.dateOfBirth) {
       const dateOfBirth = moment(account.dateOfBirth);
       this.setState({day: dateOfBirth.date(), month: dateOfBirth.month(), year: dateOfBirth.year()});
     }
+    this.setState({account})
 
   }
 
@@ -38,7 +38,7 @@ class PersonalDetails extends React.Component {
 
   handleCountryChange = (e, value) => {
 
-    const account = this.props.account;
+    const account = this.state.account;
     account['country'] = e.target.value;
     this.setState({account});
 
@@ -46,7 +46,7 @@ class PersonalDetails extends React.Component {
 
   handleChange = (e, {name, value}) => {
 
-    const account = this.props.account;
+    const account = this.state.account;
     account[name] = value;
     this.setState({account});
 
@@ -61,17 +61,17 @@ class PersonalDetails extends React.Component {
 
   handleSaveAccount = () => {
 
-    const account = this.props.account;
+    const account = this.state.account;
     let dateOfBirth = moment().year(this.state.year).month(this.state.month).date(this.state.day);
     account.dateOfBirth = dateOfBirth.utc().valueOf();
-    this.props.handleSubmit(this.props.account);
+    this.props.handleSubmit(account);
     this.toggleEditMode();
 
   }
 
   render() {
 
-    const account = this.props.account;
+    const account = this.state.account;
     if(!account.id) {
       return (
         <Segment padded>
@@ -104,10 +104,8 @@ class PersonalDetails extends React.Component {
             }
 
             <Form.Group>
-              <Form.Input fluid label='First name' defaultValue={this.props.account.firstName} placeholder='First name'
-                          required width={8}/>
-              <Form.Input fluid label='Last name' defaultValue={this.props.account.lastName} placeholder='Last name'
-                          required width={8}/>
+              <Form.Input fluid name='firstName' label='First name' defaultValue={this.state.account.firstName} onChange={this.handleChange} placeholder='First name' required width={8}/>
+              <Form.Input fluid name='firstName'  label='Last name' defaultValue={this.state.account.lastName} onChange={this.handleChange} placeholder='Last name' required width={8}/>
             </Form.Group>
 
             <Form.Group>
@@ -233,25 +231,25 @@ class PersonalDetails extends React.Component {
             </Form.Group>
 
             <Form.Group>
-              <Form.Input name='email' defaultValue={this.props.account.email} label='Email' placeholder='Email' onChange={this.handleChange} required width={10} fluid/>
+              <Form.Input name='email' defaultValue={this.state.account.email} label='Email' placeholder='Email' onChange={this.handleChange} required width={10} fluid/>
               <PasswordDialog/>
             </Form.Group>
 
             <Form.Group>
-              <Form.Input name='addressLine1' defaultValue={this.props.account.addressLine1} label='Address line 1' placeholder='Address line 1' onChange={this.handleChange} width={16} required fluid/>
+              <Form.Input name='addressLine1' defaultValue={this.state.account.addressLine1} label='Address line 1' placeholder='Address line 1' onChange={this.handleChange} width={16} required fluid/>
             </Form.Group>
 
             <Form.Group>
-              <Form.Input name='addressLine2' defaultValue={this.props.account.addressLine2} label='Address line 2' placeholder='Address line 2' onChange={this.handleChange} width={16} fluid/>
+              <Form.Input name='addressLine2' defaultValue={this.state.account.addressLine2} label='Address line 2' placeholder='Address line 2' onChange={this.handleChange} width={16} fluid/>
             </Form.Group>
 
             <Form.Group>
-              <Form.Input name='town' defaultValue={this.props.account.town} label='Town' placeholder='Town' onChange={this.handleChange} width={8} required fluid/>
-              <Form.Input name='postcode' defaultValue={this.props.account.postcode} label='Postcode' placeholder='Postcode' onChange={this.handleChange} width={8} required fluid/>
+              <Form.Input name='town' defaultValue={this.state.account.town} label='Town' placeholder='Town' onChange={this.handleChange} width={8} required fluid/>
+              <Form.Input name='postcode' defaultValue={this.state.account.postcode} label='Postcode' placeholder='Postcode' onChange={this.handleChange} width={8} required fluid/>
             </Form.Group>
 
             <Form.Group>
-              <Form.Input name='country' value={this.props.account.country} label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required>
+              <Form.Input name='country' value={this.state.account.country} label='Country' onChange={this.handleCountryChange} placeholder='Country' control='select' required>
                 <option value=''>Select country</option>
                 <option value='South Korea'>South Korea</option>
                 <option value='Japan'>Japan</option>
@@ -514,31 +512,31 @@ class PersonalDetails extends React.Component {
           <Grid>
             <Grid.Row>
               <Grid.Column width={6}>Name</Grid.Column>
-              <Grid.Column width={10}><b>{this.props.account.firstName} {this.props.account.lastName}</b></Grid.Column>
+              <Grid.Column width={10}><b>{this.state.account.firstName} {this.state.account.lastName}</b></Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={6}>Date of Birth</Grid.Column>
-              <Grid.Column width={10}><b>{formatDate(this.props.account.dateOfBirth)}</b></Grid.Column>
+              <Grid.Column width={10}><b>{formatDate(this.state.account.dateOfBirth)}</b></Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={6}>Email</Grid.Column>
-              <Grid.Column width={10}><b>{this.props.account.email}</b></Grid.Column>
+              <Grid.Column width={10}><b>{this.state.account.email}</b></Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={6}>Address</Grid.Column>
-              <Grid.Column width={10}><b>{this.props.account.addressLine1}</b></Grid.Column>
+              <Grid.Column width={10}><b>{this.state.account.addressLine1}</b></Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={6} style={{color:'white'}}>.</Grid.Column>
-              <Grid.Column width={10}><b>{this.props.account.addressLine2}</b></Grid.Column>
+              <Grid.Column width={10}><b>{this.state.account.addressLine2}</b></Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={6} style={{color:'white'}}>.</Grid.Column>
-              <Grid.Column width={10}><b>{this.props.account.town} {this.props.account.postcode}</b></Grid.Column>
+              <Grid.Column width={10}><b>{this.state.account.town} {this.props.account.postcode}</b></Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={6}>Country</Grid.Column>
-              <Grid.Column width={10}><b>{this.props.account.country}</b></Grid.Column>
+              <Grid.Column width={10}><b>{this.state.account.country}</b></Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={16}>

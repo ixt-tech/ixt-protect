@@ -15,7 +15,6 @@ class Header extends React.Component {
     super(props);
     this.state = {
       signedIn: localStorage.getItem('ACCESS_TOKEN'),
-      redirect: false
     };
 
   }
@@ -26,28 +25,20 @@ class Header extends React.Component {
     this.setState({signedIn: false});
     httpClient.delete('/sessions').subscribe(
       response => {
-        this.setState({redirect: true});
       },
       error => {
-        this.setState({redirect: true});
       },
     );
 
   }
 
   signIn = () => {
-
-    this.setState({redirect: true});
-
   }
 
   render() {
 
-    if (this.state.redirect === true) {
-      return <Redirect to='/sign-in' />
-    }
-
     const signedIn = this.state.signedIn;
+
     return (
       <Menu borderless className='header'>
 
@@ -69,8 +60,7 @@ class Header extends React.Component {
           }
         </Menu.Menu>
       </Menu>
-
-    );
+    )
 
   };
 

@@ -11,17 +11,13 @@ class PersonalDetailsPage extends React.Component {
 
     super(props);
     this.state = {
-      account: {},
+      account: this.props.location.state.account,
       formInvalid: false,
       formIncomplete: true,
       showSuccess: false,
       errors: []
     }
 
-  }
-
-  componentDidMount = async () => {
-    this.setState({account: this.props.location.state.account});
   }
 
   handleDateChange = async (e, value) => {

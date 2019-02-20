@@ -36,12 +36,21 @@ class JoinPage extends React.Component {
     this.setState({accepted: value.checked});
   }
 
+  isEmailValid = (email) => {
+    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
   handleSubmit = () => {
 
     const errors = [];
     this.setState({formInvalid: false, errors: errors});
 
     // validate
+    if(!this.isEmailValid(this.state.email)) {
+      errors.push('Email is not valid');
+      this.setState({formInvalid: true, errors: errors});
+    }
     if(this.state.password.length < 8) {
       errors.push('Password must be 8 characters or more');
       this.setState({formInvalid: true, errors: errors});
