@@ -82,8 +82,15 @@ class RedeemDialog extends React.Component {
     for(let name in basket) {
       body = body.concat(this.multiply(name, basket[name]));
     }
-    httpClient.post('/redemptions', body);
-    this.setState({modalOpen: false});
+    httpClient.post('/redemptions', body).subscribe(
+      response => {
+        this.props.refresh();
+        this.setState({modalOpen: false});
+      },
+      error => {
+        this.setState({formInvalid: true, error: error.response.data});
+      },
+    );
 
   }
 

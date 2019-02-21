@@ -14,10 +14,17 @@ class Rewards extends React.Component {
     this.state = {
       rows: [],
     }
+    this.getData = this.getData.bind(this);
 
   }
 
   componentDidMount = () => {
+
+    this.refresh();
+
+  };
+
+  refresh = () => {
 
     this.getData('/rewards');
     this.getData('/redemptions');
@@ -29,7 +36,7 @@ class Rewards extends React.Component {
       }
     );
 
-  };
+  }
 
   getData = (type) => {
 
@@ -41,7 +48,7 @@ class Rewards extends React.Component {
           row['index'] = length + index;
           rows.push(row);
         });
-        rows.sort((a,b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0));
+        rows.sort((a,b) => (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0));
         this.setState({ rows: rows });
       }
     );
@@ -60,7 +67,7 @@ class Rewards extends React.Component {
           <Grid.Row>
             <Grid.Column width={7}>Balance: <b>{this.state.rewardBalance} IXT</b></Grid.Column>
             <Grid.Column width={9}>
-              <RedeemDialog balance={this.state.rewardBalance}/>
+              <RedeemDialog balance={this.state.rewardBalance} refresh={this.refresh}/>
             </Grid.Column>
           </Grid.Row>
         </Grid>
