@@ -28,16 +28,13 @@ class RedeemDialog extends React.Component {
       modalOpen: false,
       balance: 0,
       basket: {},
-      basketBalance: 0
+      basketBalance: 0,
+      country: ''
     };
   }
 
   handleCountryChange = (e, value) => {
-
-//    const account = this.props.account;
-//    account['country'] = e.target.value;
-//    this.setState({account});
-
+    this.setState({country: e.target.value});
   }
 
   handleChange = (e, {name, value}) => this.setState({[name]: value});
@@ -147,11 +144,11 @@ class RedeemDialog extends React.Component {
                     </Card.Content>
                     <Card.Content extra>
                       <div className='ui two buttons'>
-                        <Button basic color='red' onClick={this.removeProduct.bind(this, 'Amazon Voucher', 200 )}>
+                        <Button basic color='red' disabled={!this.state.basket['Amazon Voucher'] || this.state.basket['Amazon Voucher'] == 0} onClick={this.removeProduct.bind(this, 'Amazon Voucher', 200 )}>
                           <Icon name='minus' />
                           Remove
                         </Button>
-                        <Button basic color='green' onClick={this.addProduct.bind(this, 'Amazon Voucher', 200 )}>
+                        <Button basic color='green' disabled={this.state.country == ''} onClick={this.addProduct.bind(this, 'Amazon Voucher', 200 )}>
                           <Icon name='plus' />
                           Add
                         </Button>

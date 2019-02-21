@@ -70,6 +70,8 @@ class Emailer {
       to: member.email,
       subject: 'You redeemed some IXT',
       locals: {
+        ixtAmount: redemption.ixtAmount,
+        redemptionDescription: redemption.description
       }
     };
     await this.send(mailOptions, 'new-redemption');
@@ -86,6 +88,8 @@ class Emailer {
       to: member.email,
       subject: 'You have been given an IXT Reward!',
       locals: {
+        ixtAmount: reward.ixtAmount,
+        rewardDescription: reward.description
       }
     };
     await this.send(mailOptions, 'new-reward');

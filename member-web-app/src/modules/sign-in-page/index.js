@@ -36,7 +36,16 @@ class SignInPage extends React.Component {
       response => {
         if(response.accessToken) {
           localStorage.setItem('ACCESS_TOKEN', response.accessToken);
-          this.setState({redirect: true, destination: response.redirect, account: response.account});
+          const account = response.account;
+
+          let target = '/account';
+          if(account.status == 'NEW') {
+            target = '/activate';
+          } else if(account.status == 'VERIFIED') {
+            target = '/personal-details';
+          }
+
+          this.setState({redirect: true, target: target, account: account});
         } else {
           localStorage.setItem('ACCESS_TOKEN', undefined);
           this.setState({formInvalid: true});
@@ -59,9 +68,14 @@ class SignInPage extends React.Component {
   render() {
 
     if (this.state.redirect === true) {
-      return (<Redirect to={{
-        pathname: this.state.destination,
-        state: { account: this.state.account }}} />)
+      console.log('REDIRECT', this.state.target);
+      return (
+        <Redirect to={{
+          pathname: this.state.target,
+          state: { account: this.state.account }}}
+          from='/sign-in'
+        />
+      )
     } else {
 
       return (

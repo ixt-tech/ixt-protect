@@ -19,13 +19,8 @@ class Rewards extends React.Component {
 
   componentDidMount = () => {
 
-    httpClient.get('/rewards').subscribe(
-      response => {
-        let rows = this.state.rows;
-        rows = rows.concat(response)
-        this.setState({ rows: rows });
-      }
-    );
+    this.getData('/rewards');
+    this.getData('/redemptions');
 
     httpClient.get('/rewards/balance').subscribe(
       response => {
@@ -35,6 +30,23 @@ class Rewards extends React.Component {
     );
 
   };
+
+  getData = (type) => {
+
+    httpClient.get(type).subscribe(
+      response => {
+        let rows = this.state.rows;
+        const length = rows.length;
+        response.forEach(function(row, index, array) {
+          row['index'] = length + index;
+          rows.push(row);
+        });
+        rows.sort((a,b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0));
+        this.setState({ rows: rows });
+      }
+    );
+
+  }
 
   render() {
 
@@ -69,7 +81,7 @@ class Rewards extends React.Component {
           </Grid.Row>
           }
           { this.state.rows.map((row) => (
-              <Grid.Row className='grid-row' children={this.state.rows} key={row.id}>
+              <Grid.Row className='grid-row' children={this.state.rows} key={row.index}>
                 <Grid.Column width={9}>{ row.description }</Grid.Column>
                 <Grid.Column width={3}>{ row.amount }</Grid.Column>
                 <Grid.Column width={3}>{ formatTimestamp(row.createdAt) }</Grid.Column>

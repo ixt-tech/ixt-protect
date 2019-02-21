@@ -118,7 +118,7 @@ class JoinPage extends React.Component {
                 <Form.Input name='email' label='Email' onChange={this.handleChange} placeholder='e.g. name@example.com' required fluid/>
                 <Form.Input name='password' label='Password' onChange={this.handleChange} placeholder='Min 8 characters' type='password' required fluid/>
                 <Form.Input name='password2' label='Confirm password' onChange={this.handleChange} placeholder='Re-type password' type='password' required fluid/>
-                <Form.Input name='referralCode' defaultValue={this.state.referralCode} label='Invitation code' placeholder='Code' fluid />
+                <Form.Input name='referralCode' onChange={this.handleChange} defaultValue={this.state.referralCode} label='Invitation code' placeholder='Code' fluid />
                 <Form.Field>
                   <Checkbox onChange={this.handleCheckboxChange}
                     label={<label>I accept the <a href='#'>Terms and Conditions</a> and that my data being stored inline with the guidelines set out in the <a href='#'>Privacy Policy</a></label>}/>

@@ -29,10 +29,11 @@ describe('Emailer', function() {
       subject: 'Test email with template from the Dev team',
       templatePath: path.resolve(__dirname, '../../../','template','email'),
       locals: {
-        activationCode: '123ABC'
+        ixtAmount: 200,
+        redemptionDescription: 'TESTING TESTING'
       }
     };
-    emailer.send(mailOptions, 'email-verification');
+    emailer.send(mailOptions, 'new-redemption');
     done();
 
   });

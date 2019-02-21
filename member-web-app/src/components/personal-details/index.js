@@ -105,7 +105,7 @@ class PersonalDetails extends React.Component {
 
             <Form.Group>
               <Form.Input fluid name='firstName' label='First name' defaultValue={this.state.account.firstName} onChange={this.handleChange} placeholder='First name' required width={8}/>
-              <Form.Input fluid name='firstName'  label='Last name' defaultValue={this.state.account.lastName} onChange={this.handleChange} placeholder='Last name' required width={8}/>
+              <Form.Input fluid name='lastName'  label='Last name' defaultValue={this.state.account.lastName} onChange={this.handleChange} placeholder='Last name' required width={8}/>
             </Form.Group>
 
             <Form.Group>

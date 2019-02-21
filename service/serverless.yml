@@ -209,6 +209,19 @@ functions:
                           - Content-Type
                       allowCredentials: false
 
+    getRedemptions:
+        handler: src/api/get-redemptions.handler
+        events:
+            - http:
+                  path: redemptions
+                  method: get
+                  cors:
+                      origin: '*'
+                      headers:
+                          - x-access-token
+                          - Content-Type
+                      allowCredentials: false
+
     createRedemption:
         handler: src/api/create-redemption.handler
         events:

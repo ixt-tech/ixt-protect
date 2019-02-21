@@ -6,8 +6,10 @@ import Loadable from 'react-loadable';
 import Header from './components/header';
 import Footer from './components/footer';
 import Connecting from './components/connecting';
+import { Redirect } from 'react-router-dom';
 
 import "./app.css";
+import httpClient from "./services/http-client";
 
 const JoinPage = Loadable({
   loader: () => import('./modules/join-page'),
@@ -46,23 +48,41 @@ const ThankYouPage = Loadable({
 
 class App extends Component {
 
-  isSignedIn() {
-    return localStorage.getItem('ACCESS_TOKEN') != undefined;
+  constructor(props) {
+
+    super(props);
+    this.state = {
+      isSignedIn: localStorage.getItem('ACCESS_TOKEN') != undefined,
+      redirect: false
+    };
+
+  }
+
+  signOut = () => {
+
+    localStorage.removeItem('ACCESS_TOKEN');
+    httpClient.delete('/sessions');
+    this.setState({redirect: true});
+
   }
 
   render() {
+
     return (
       <div className="App">
         <Router>
           <div>
-          <Header history={this.props.history}/>
+          <Header signOut={this.signOut}/>
+          {this.state.redirect === true &&
+            <Redirect to='/sign-in' />
+          }
           <Container>
             <Switch>
               <PrivateRoute
                 exact
                 path="/"
                 component={ThankYouPage}
-                isAuthenticated={this.isSignedIn()}
+                isAuthenticated={this.state.isSignedIn}
                 redirect="/sign-in"
               />
               <Route path="/join" component={JoinPage}/>
@@ -74,14 +94,14 @@ class App extends Component {
                 exact
                 path="/account"
                 component={AccountPage}
-                isAuthenticated={this.isSignedIn()}
+                isAuthenticated={this.state.isSignedIn}
                 redirect="/sign-in"
               />
               <PrivateRoute
                 exact
                 path="/thank-you"
                 component={ThankYouPage}
-                isAuthenticated={this.isSignedIn()}
+                isAuthenticated={this.state.isSignedIn}
                 redirect="/sign-in"
               />
             </Switch>

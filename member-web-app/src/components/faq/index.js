@@ -20,15 +20,15 @@ class Faq extends React.Component {
         }, {
           key: 2,
           question: 'Where is IXT traded?',
-          answer: 'You can get IXT on the following exchanges; Bit-Z, Liquid, EtherDelta, IDAX, HitBTC, BitBns, Tokenjar'
+          answer: 'You can get IXT on the following exchanges: Bit-Z, Liquid, EtherDelta, IDAX, HitBTC, BitBns, Tokenjar'
         }, {
           key: 3,
           question: 'Who can purchase IXT?',
-          answer: 'Anyone can purchase IXT apart of residents in the following countries; United States, Syria, Cuba, North Korea, Iran, Côte d’Ivoire, Burma'
+          answer: 'Anyone can purchase IXT apart of residents in the following countries: United States, Syria, Cuba, North Korea, Iran, Côte d’Ivoire, Burma'
         }, {
           key: 4,
           question: 'What can I use IXT for?',
-          answer: 'IXT can be used for?' +
+          answer: 'IXT can be used for: ' +
           'Commission payments in PayRue cryptocurrency payment app, ' +
           'Staking in IXT Protect ecosystem, ' +
           'Voting rights in IXT Protect, ' +
@@ -37,7 +37,7 @@ class Faq extends React.Component {
         }, {
           key: 5,
           question: 'What products does IXT Ltd have?',
-          answer: 'IXT Protect v.1 offers it’s members protection service and was launched on the 14th December 2018'
+          answer: 'IXT Protect v.1 offers its members protection services and staking and was launched on the 14th December 2018'
         }, {
           key: 6,
           question: 'When are IXT project updates published?',
@@ -107,8 +107,7 @@ class Faq extends React.Component {
         <Grid style={{overflow: 'auto', maxHeight: 400, minHeight: 400 }}>
           { this.state.faqs.map((row) => (
               <Grid.Row className='grid-row' children={this.state.rewards} key={row.key}>
-                <Grid.Column width={2}><Button style={{background: '#ffffff', color: '#000000'}}><Icon name='angle right' /></Button></Grid.Column>
-                <Grid.Column width={14}><b>{row.question}</b><br/>{row.answer}</Grid.Column>
+                <Grid.Column width={16}><b>{row.question}</b><br/>{row.answer}</Grid.Column>
               </Grid.Row>
           ))}
         </Grid>

@@ -369,6 +369,19 @@ class MemberService {
 
   }
 
+  async getRedemptions(id) {
+
+    console.log('Get redemptions begins...');
+
+    let sql = 'select * from redemption where redeemer = ?';
+
+    const result = await query(sql, [id]);
+
+    console.log('Get redemptions completed.');
+    return result;
+
+  }
+
   async getRewardBalance(memberId) {
 
     console.log('Get reward balance begins...');
@@ -407,19 +420,20 @@ class MemberService {
       throw { code: 401, message: 'Insufficient reward balance' };
     }
 
+    redemption.description = 'You redeemed ' + voucher.amountIxt + ' IXT for one ' + voucher.name;
     // create redemption
     redemption.id = undefined;
 
     this._setTraceInfo(redemption);
     await query('insert into redemption (' +
-      'name, ' +
+      'description, ' +
       'code, ' +
       'amount, ' +
       'redeemer, ' +
       'createdAt, ' +
       'updatedAt) ' +
       'values(?, ?, ?, ?, ?, ?)', [
-        voucher.name,
+        redemption.description,
         voucher.code,
         voucher.amountIxt,
         memberId,
